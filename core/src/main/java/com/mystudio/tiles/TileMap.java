@@ -1,4 +1,4 @@
-package tiles;
+package com.mystudio.tiles;
 
 import java.util.ArrayList;
 import java.util.TreeSet;

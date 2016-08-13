@@ -1,4 +1,4 @@
-package events;
+package com.mystudio.events;
 
 import org.mini2Dx.core.game.ScreenBasedGame;
 import org.mini2Dx.core.screen.transition.FadeInTransition;

@@ -8,9 +8,8 @@ import org.mini2Dx.core.graphics.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-
-import tiles.Tile;
-import tiles.TileMap;
+import com.mystudio.tiles.Tile;
+import com.mystudio.tiles.TileMap;
 
 public class Path {
 

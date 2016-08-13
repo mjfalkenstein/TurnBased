@@ -7,9 +7,8 @@ import org.mini2Dx.core.geom.Rectangle;
 import org.mini2Dx.core.graphics.Graphics;
 
 import com.badlogic.gdx.graphics.Color;
-
-import events.Event;
-import tiles.TileMap;
+import com.mystudio.events.Event;
+import com.mystudio.tiles.TileMap;
 
 public class Region extends Entity {
 	

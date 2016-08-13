@@ -1,4 +1,4 @@
-package events;
+package com.mystudio.events;
 
 public enum EventType {
 	
