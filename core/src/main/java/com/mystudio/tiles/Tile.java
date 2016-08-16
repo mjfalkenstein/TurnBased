@@ -9,6 +9,7 @@ import org.mini2Dx.core.graphics.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.mystudio.utils.TileMap;
 
 public class Tile implements Comparable<Tile>{
 
@@ -24,11 +25,8 @@ public class Tile implements Comparable<Tile>{
 
 	float movement, cover, protection, concealment, damage, flammability;
 
-	public Tile(TileEnum type, int tileSize, int spriteSize){
+	public Tile(TileEnum type){
 		this.type = type;
-
-		this.tileSize = tileSize;
-		this.spriteSize = spriteSize;
 
 		switch(type){
 		case TEST:
@@ -125,6 +123,10 @@ public class Tile implements Comparable<Tile>{
 		default:
 			break;
 		}
+	}
+
+	public Tile(Tile newTile) {
+		this(newTile.type);
 	}
 
 	public void setCoords(int x, int y){
@@ -370,5 +372,9 @@ public class Tile implements Comparable<Tile>{
 
 	public int getY(){
 		return y;
+	}
+	
+	public TileEnum getType(){
+		return type;
 	}
 }

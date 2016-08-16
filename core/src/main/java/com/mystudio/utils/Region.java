@@ -8,7 +8,6 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.mystudio.events.Event;
-import com.mystudio.tiles.TileMap;
 
 public class Region extends Entity {
 	
