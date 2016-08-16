@@ -10,6 +10,7 @@ package com.mystudio.utils;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
 import com.mystudio.entities.Character;
 
 import org.mini2Dx.core.game.GameContainer;
@@ -82,6 +83,9 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) {
+		g.setColor(Color.GRAY);
+		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+		
 		for(Entity e : worldEntities){
 			e.render(g);
 		}

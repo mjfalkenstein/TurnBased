@@ -11,7 +11,6 @@ import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.screen.GameScreen;
 import org.mini2Dx.core.screen.ScreenManager;
 
-import com.badlogic.gdx.graphics.Color;
 import com.mystudio.entities.Character;
 import com.mystudio.utils.Level;
 
@@ -37,9 +36,6 @@ public class Level0 extends Level{
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		g.setColor(Color.GRAY);
-		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
-		
 		super.render(gc, g);
 	}
 
