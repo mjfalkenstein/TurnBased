@@ -57,20 +57,7 @@ public class TileMap {
 	public void draw(Graphics g){
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				TileType type = tiles[i][j].getType();
-				if(groundTiles.contains(type)){
-					tiles[i][j].draw(g);
-				}
-			}
-		}
-		
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
-				TileType type = tiles[i][j].getType();
-				if(!groundTiles.contains(type)){
-					tiles[i][j].draw(g);
-					System.out.println("Drawing tile at: " + i + ", " + j);
-				}
+				tiles[i][j].draw(g);
 			}
 		}
 	}

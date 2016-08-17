@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mystudio.enums.TileType;
+import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.TileMap;
 
 public class Tile implements Comparable<Tile>{
@@ -273,7 +274,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public void draw(Graphics g){
-		g.drawSprite(sprite, x * tileSize, y * tileSize);
+		g.drawSprite(sprite, x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE);
 		
 		if(highlight){
 			Color c = Color.WHITE;
