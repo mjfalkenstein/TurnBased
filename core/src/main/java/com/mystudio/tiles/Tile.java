@@ -14,16 +14,15 @@ import com.mystudio.utils.TileMap;
 
 public class Tile implements Comparable<Tile>{
 
-	//SpriteSheet sprite;
 	Texture spriteSheet;
 	int tileSize, spriteSize;
 	int currentX, currentY, x, y;
 	TileEnum type;
 	boolean pathable;
-	//Image image;'
 	Sprite sprite;
 	int shift = 0;
-
+	boolean highlight = false;
+	
 	float movement, cover, protection, concealment, damage, flammability;
 
 	public Tile(TileEnum type){
@@ -145,13 +144,6 @@ public class Tile implements Comparable<Tile>{
 		currentX = 0;
 		currentY = 0;
 		pathable = true;
-
-//		try {
-//			sprite = new SpriteSheet("Resources/testTile.png" , spriteSize, spriteSize);
-//		} catch (SlickException e) {
-//			e.printStackTrace();
-//		}
-//		image = sprite.getSprite(currentX, currentY);
 		
 		try{
 			spriteSheet = new Texture(Gdx.files.internal("data/testTile.png"));
@@ -283,15 +275,20 @@ public class Tile implements Comparable<Tile>{
 	public void draw(Graphics g){
 		g.setColor(Color.WHITE);
 		g.drawSprite(sprite, x * tileSize, y * tileSize);
+		
+		if(highlight){
+			Color c = Color.WHITE;
+			c.a = 0.25f;
+			g.setColor(c);
+			g.drawRect(x * tileSize, y * tileSize, tileSize, tileSize);
+			c.a = 1.0f;
+			g.setColor(c);
+			highlight = false;
+		}
 	}
 
 	public void highlight(Graphics g){
-		Color c = Color.WHITE;
-		c.a = 0.25f;
-		g.setColor(c);
-		g.drawRect(x * tileSize, y * tileSize, tileSize, tileSize);
-		c.a = 1.0f;
-		g.setColor(c);
+		highlight = true;
 	}
 
 	public void setSprite(Texture newSprite){

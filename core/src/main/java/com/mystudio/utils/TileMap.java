@@ -11,7 +11,6 @@ import com.mystudio.turnbased.TurnBasedDriver;
 
 public class TileMap {
 	
-	//ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
 	Tile[][] tiles;
 	private int width, height;
 	
@@ -21,16 +20,12 @@ public class TileMap {
 		this.width = width;
 		this.height = height;
 		
-//		for(int i = 0; i < width; i++){
-//			tiles.add(new ArrayList<Tile>());
-//		}
+		tiles = new Tile[width][height];
 		
 		Tile blankTile = new Tile(TileEnum.BLANK);
 		
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				//tiles.get(i).add(j, blankTile);
-				//tiles.get(i).get(j).setCoords(i, j);
 				tiles[i][j] = new Tile(blankTile);
 				tiles[i][j].setCoords(i, j);
 			}

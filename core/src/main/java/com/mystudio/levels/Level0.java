@@ -15,6 +15,8 @@ import com.mystudio.entities.Character;
 import com.mystudio.utils.Level;
 
 public class Level0 extends Level{
+	
+	Character testCharacter;
 
 	public Level0(int ID, int width, int height) {
 		super(ID, width, height);
@@ -24,7 +26,7 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		Character testCharacter = new Character(4, 4, "test.jpg");
+		testCharacter = new Character(4, 4, "test.jpg");
 		
 		addPlayerCharacter(testCharacter);
 	}

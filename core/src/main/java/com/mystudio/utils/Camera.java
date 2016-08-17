@@ -33,7 +33,7 @@ public class Camera {
 	 * @param g - the Graphics context
 	 * @param e - the Entity to follow
 	 */
-	public void update(GameContainer gc, Graphics g, Entity e) {
+	public void followCharacter(GameContainer gc, Graphics g, Entity e) {
 		if(follow){
 			view.setX((e.getX() - gc.getWidth()/2));
 			view.setY((e.getY() - gc.getHeight()/2));

@@ -10,8 +10,10 @@ package com.mystudio.utils;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.mystudio.entities.Character;
+import com.mystudio.turnbased.TurnBasedDriver;
 
 import org.mini2Dx.core.game.GameContainer;
 import org.mini2Dx.core.graphics.Graphics;
@@ -28,9 +30,14 @@ public abstract class Level extends BasicGameScreen{
 	ArrayList<Character> enemyCharacters;
 	
 	int width, height;
+	int mouseX, mouseY;
+	int cameraX, cameraY;
 	
 	Character currentCharacter;
 	int currentCharacterIndex = -1;
+	
+	TileMap map;
+	Camera camera;
 	
 	/**
 	 * Constructor
@@ -39,6 +46,8 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	public Level(int ID, int width, int height){
 		this.ID = ID;
+		this.width = width;
+		this.height = height;
 	}
 
 	/**
@@ -62,6 +71,10 @@ public abstract class Level extends BasicGameScreen{
 		worldEntities = new ArrayList<Entity>();
 		playerCharacters = new ArrayList<Character>();
 		enemyCharacters = new ArrayList<Character>();
+		
+		camera = new Camera(gc, width * TurnBasedDriver.TILESIZE, height * TurnBasedDriver.TILESIZE);
+		
+		map = new TileMap(width, height);
 	}
 
 	/**
@@ -83,12 +96,18 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) {
+		g.translate(-camera.getX(), -camera.getY());
+		
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 		
 		for(Entity e : worldEntities){
 			e.render(g);
 		}
+		
+		
+		//System.out.println("X: " + camera.getX() + " Y: " + camera.getY());
+		g.translate(camera.getX(), camera.getY());
 	}
 
 	/**
@@ -103,6 +122,16 @@ public abstract class Level extends BasicGameScreen{
 		for(Entity e : worldEntities){
 			e.update(delta);
 		}
+		
+		mouseX = Gdx.input.getX();
+		mouseY = Gdx.input.getY();
+		
+		if(mouseX <= 10) 				 cameraX += TurnBasedDriver.CAMERA_SPEED;
+		if(mouseX >= gc.getWidth() - 10) cameraX -= TurnBasedDriver.CAMERA_SPEED;
+		if(mouseY <= 10) 				 cameraY += TurnBasedDriver.CAMERA_SPEED;
+		if(mouseY >= gc.getHeight() - 10)cameraY -= TurnBasedDriver.CAMERA_SPEED;
+		
+		camera.move(cameraX, cameraY);
 	}
 	
 	/**
