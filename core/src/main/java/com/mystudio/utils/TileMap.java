@@ -5,8 +5,8 @@ import java.util.TreeSet;
 
 import org.mini2Dx.core.graphics.Graphics;
 
+import com.mystudio.enums.TileEnum;
 import com.mystudio.tiles.Tile;
-import com.mystudio.tiles.TileEnum;
 import com.mystudio.turnbased.TurnBasedDriver;
 
 public class TileMap {

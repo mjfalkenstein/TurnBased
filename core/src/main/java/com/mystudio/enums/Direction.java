@@ -1,4 +1,4 @@
-package com.mystudio.utils;
+package com.mystudio.enums;
 
 public enum Direction {
 	

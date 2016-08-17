@@ -2,9 +2,10 @@ package com.mystudio.events;
 
 import org.mini2Dx.core.game.ScreenBasedGame;
 
-import com.mystudio.tiles.TileMap;
+import com.mystudio.enums.EventType;
 import com.mystudio.utils.Camera;
 import com.mystudio.utils.Region;
+import com.mystudio.utils.TileMap;
 
 public class EnterBattleEvent extends Event{
 	boolean active;

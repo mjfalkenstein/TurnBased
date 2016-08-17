@@ -11,8 +11,12 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.Entity;
+import com.mystudio.utils.Stats;
 
 public class Character extends Entity{
+	
+	int level;
+	Stats stats;
 
 	public Character(int x, int y, String texturePath) {
 		super(x, y, texturePath);

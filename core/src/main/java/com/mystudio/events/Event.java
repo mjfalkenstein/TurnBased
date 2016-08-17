@@ -2,6 +2,7 @@ package com.mystudio.events;
 
 import org.mini2Dx.core.game.ScreenBasedGame;
 
+import com.mystudio.enums.EventType;
 import com.mystudio.utils.Camera;
 
 public abstract class Event {

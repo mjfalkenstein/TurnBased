@@ -4,6 +4,7 @@ import org.mini2Dx.core.game.ScreenBasedGame;
 import org.mini2Dx.core.screen.transition.FadeInTransition;
 import org.mini2Dx.core.screen.transition.FadeOutTransition;
 
+import com.mystudio.enums.EventType;
 import com.mystudio.utils.Camera;
 
 public class StateSwitchEvent extends Event {

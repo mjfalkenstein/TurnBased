@@ -9,6 +9,7 @@ import org.mini2Dx.core.graphics.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.mystudio.enums.TileEnum;
 import com.mystudio.utils.TileMap;
 
 public class Tile implements Comparable<Tile>{

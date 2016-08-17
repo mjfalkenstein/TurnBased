@@ -1,4 +1,4 @@
-package com.mystudio.tiles;
+package com.mystudio.enums;
 
 public enum TileEnum {
 	
