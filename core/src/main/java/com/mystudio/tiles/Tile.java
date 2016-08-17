@@ -9,7 +9,7 @@ import org.mini2Dx.core.graphics.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.mystudio.enums.TileEnum;
+import com.mystudio.enums.TileType;
 import com.mystudio.utils.TileMap;
 
 public class Tile implements Comparable<Tile>{
@@ -17,7 +17,7 @@ public class Tile implements Comparable<Tile>{
 	Texture spriteSheet;
 	int tileSize, spriteSize;
 	int currentX, currentY, x, y;
-	TileEnum type;
+	TileType type;
 	boolean pathable;
 	Sprite sprite;
 	int shift = 0;
@@ -25,7 +25,7 @@ public class Tile implements Comparable<Tile>{
 	
 	float movement, cover, protection, concealment, damage, flammability;
 
-	public Tile(TileEnum type){
+	public Tile(TileType type){
 		this.type = type;
 
 		switch(type){
@@ -273,7 +273,6 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.WHITE);
 		g.drawSprite(sprite, x * tileSize, y * tileSize);
 		
 		if(highlight){
@@ -287,7 +286,7 @@ public class Tile implements Comparable<Tile>{
 		}
 	}
 
-	public void highlight(Graphics g){
+	public void highlight(){
 		highlight = true;
 	}
 
@@ -372,7 +371,7 @@ public class Tile implements Comparable<Tile>{
 		return y;
 	}
 	
-	public TileEnum getType(){
+	public TileType getType(){
 		return type;
 	}
 }

@@ -98,15 +98,17 @@ public abstract class Level extends BasicGameScreen{
 	public void render(GameContainer gc, Graphics g) {
 		g.translate(-camera.getX(), -camera.getY());
 		
-		g.setColor(Color.GRAY);
-		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+		g.setBackgroundColor(Color.GRAY);
+		
+		map.draw(g);
 		
 		for(Entity e : worldEntities){
 			e.render(g);
 		}
 		
+		//map.highlightTile(mouseX, mouseY, g);
+		map.get(mouseX, mouseY).highlight();
 		
-		//System.out.println("X: " + camera.getX() + " Y: " + camera.getY());
 		g.translate(camera.getX(), camera.getY());
 	}
 
@@ -126,10 +128,10 @@ public abstract class Level extends BasicGameScreen{
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
 		
-		if(mouseX <= 10) 				 cameraX += TurnBasedDriver.CAMERA_SPEED;
-		if(mouseX >= gc.getWidth() - 10) cameraX -= TurnBasedDriver.CAMERA_SPEED;
-		if(mouseY <= 10) 				 cameraY += TurnBasedDriver.CAMERA_SPEED;
-		if(mouseY >= gc.getHeight() - 10)cameraY -= TurnBasedDriver.CAMERA_SPEED;
+		if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
+		if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
+		if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
+		if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
 		
 		camera.move(cameraX, cameraY);
 	}

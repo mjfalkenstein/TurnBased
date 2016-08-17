@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 import org.mini2Dx.core.graphics.Graphics;
 
-import com.mystudio.enums.TileEnum;
+import com.mystudio.enums.TileType;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
 
@@ -14,7 +14,7 @@ public class TileMap {
 	Tile[][] tiles;
 	private int width, height;
 	
-	private ArrayList<TileEnum> groundTiles = new ArrayList<TileEnum>();
+	private ArrayList<TileType> groundTiles = new ArrayList<TileType>();
 	
 	public TileMap(int width, int height){
 		this.width = width;
@@ -22,19 +22,17 @@ public class TileMap {
 		
 		tiles = new Tile[width][height];
 		
-		Tile blankTile = new Tile(TileEnum.BLANK);
-		
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				tiles[i][j] = new Tile(blankTile);
+				tiles[i][j] = new Tile(TileType.TEST);
 				tiles[i][j].setCoords(i, j);
 			}
 		}
 		
-		groundTiles.add(TileEnum.GRASS);
-		groundTiles.add(TileEnum.DIRT);
-		groundTiles.add(TileEnum.GRASSY_MUD);
-		groundTiles.add(TileEnum.SAND);
+		groundTiles.add(TileType.GRASS);
+		groundTiles.add(TileType.DIRT);
+		groundTiles.add(TileType.GRASSY_MUD);
+		groundTiles.add(TileType.SAND);
 	}
 	
 	public Tile get(int x, int y){
@@ -59,7 +57,7 @@ public class TileMap {
 	public void draw(Graphics g){
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				TileEnum type = tiles[i][j].getType();
+				TileType type = tiles[i][j].getType();
 				if(groundTiles.contains(type)){
 					tiles[i][j].draw(g);
 				}
@@ -68,9 +66,10 @@ public class TileMap {
 		
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				TileEnum type = tiles[i][j].getType();
+				TileType type = tiles[i][j].getType();
 				if(!groundTiles.contains(type)){
 					tiles[i][j].draw(g);
+					System.out.println("Drawing tile at: " + i + ", " + j);
 				}
 			}
 		}
@@ -82,6 +81,11 @@ public class TileMap {
 				tiles[i][j].move(i * TurnBasedDriver.TILESIZE, j * TurnBasedDriver.TILESIZE);
 			}
 		}
+	}
+	
+	public void highlightTile(int x, int y, Graphics g){
+		Tile tile = get(x / TurnBasedDriver.TILESIZE, y / TurnBasedDriver.TILESIZE);
+		tile.highlight();
 	}
 	
 	public Tile[][] getTiles(){

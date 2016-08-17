@@ -1,6 +1,6 @@
 package com.mystudio.enums;
 
-public enum TileEnum {
+public enum TileType {
 	
 	GRASS,
 	DIRT,
