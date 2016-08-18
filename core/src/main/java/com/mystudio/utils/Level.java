@@ -75,6 +75,9 @@ public abstract class Level extends BasicGameScreen{
 		camera = new Camera(gc, width * TurnBasedDriver.TILESIZE, height * TurnBasedDriver.TILESIZE);
 		
 		map = new TileMap(width, height);
+		
+		cameraX = gc.getWidth()/2 - (width * TurnBasedDriver.TILESIZE)/2;
+		cameraY = gc.getHeight()/2 - (height * TurnBasedDriver.TILESIZE)/2;
 	}
 
 	/**
@@ -133,6 +136,8 @@ public abstract class Level extends BasicGameScreen{
 		if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
 		
 		camera.move(cameraX, cameraY);
+		
+		System.out.println(cameraX + " " + cameraY);
 	}
 	
 	/**
