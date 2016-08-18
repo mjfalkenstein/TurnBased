@@ -123,6 +123,9 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
+		
+		handleMouseInput(gc);
+		
 		for(Entity e : worldEntities){
 			e.update(delta);
 		}
@@ -136,8 +139,6 @@ public abstract class Level extends BasicGameScreen{
 		if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
 		
 		camera.move(cameraX, cameraY);
-		
-		System.out.println(cameraX + " " + cameraY);
 	}
 	
 	/**
@@ -159,5 +160,13 @@ public abstract class Level extends BasicGameScreen{
 		playerCharacters.add(c);
 		currentCharacter = c;
 		currentCharacterIndex++;
+	}
+	
+	private void handleMouseInput(GameContainer gc){
+		if(Gdx.input.isButtonPressed(0)){
+			for(Character c : playerCharacters){
+				//if(c.)
+			}
+		}
 	}
 }

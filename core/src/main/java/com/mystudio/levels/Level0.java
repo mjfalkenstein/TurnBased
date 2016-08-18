@@ -26,7 +26,7 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacter = new Character(4, 4, "test.jpg");
+		testCharacter = new Character(6, 6, "test.jpg");
 		
 		addPlayerCharacter(testCharacter);
 	}

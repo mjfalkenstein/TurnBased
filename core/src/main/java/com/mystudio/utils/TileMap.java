@@ -24,7 +24,7 @@ public class TileMap {
 		
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				tiles[i][j] = new Tile(TileType.BLANK);
+				tiles[i][j] = new Tile(TileType.TEST);
 				tiles[i][j].setCoords(i, j);
 			}
 		}

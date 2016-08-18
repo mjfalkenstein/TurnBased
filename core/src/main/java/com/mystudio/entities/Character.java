@@ -25,7 +25,7 @@ public class Character extends Entity{
 
 	@Override
 	public void update(float delta) {
-		
+
 	}
 
 	@Override
