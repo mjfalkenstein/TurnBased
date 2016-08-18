@@ -40,7 +40,7 @@ public class Region extends Entity {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics g, Camera camera) {
 		g.setColor(color);
 		g.drawShape(highlight);
 		Color c = new Color(color.r, color.g, color.b, 0.2f);

@@ -106,7 +106,7 @@ public abstract class Level extends BasicGameScreen{
 		map.draw(g);
 		
 		for(Entity e : worldEntities){
-			e.render(g);
+			e.render(g, camera);
 		}
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);

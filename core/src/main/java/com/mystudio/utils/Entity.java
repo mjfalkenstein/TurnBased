@@ -56,7 +56,7 @@ public abstract class Entity {
 	 * 
 	 * @param g - the graphics object that we're drawing to
 	 */
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics g, Camera camera);
 	
 	public void move(int x, int y){
 		this.xTile = x;

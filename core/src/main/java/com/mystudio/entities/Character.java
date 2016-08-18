@@ -21,7 +21,10 @@ public class Character extends Entity{
 
 	public Character(int x, int y, String texturePath) {
 		super(x, y, texturePath);
-		sprite.setScale(TurnBasedDriver.TILESIZE / sprite.getWidth(), TurnBasedDriver.TILESIZE / sprite.getWidth());
+		// Scales the sprite about the top left corner
+		sprite.setOrigin(0, 0);
+		sprite.setScale(TurnBasedDriver.TILESIZE / sprite.getWidth(), 
+					    TurnBasedDriver.TILESIZE / sprite.getHeight());
 	}
 
 	@Override
@@ -31,7 +34,8 @@ public class Character extends Entity{
 	}
 
 	@Override
-	public void render(Graphics g) {
-		g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, yTile * TurnBasedDriver.TILESIZE);
+	public void render(Graphics g, Camera camera) {
+		g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
+						     yTile * TurnBasedDriver.TILESIZE);
 	}
 }
