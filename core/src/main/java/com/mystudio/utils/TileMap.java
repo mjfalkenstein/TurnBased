@@ -2,6 +2,7 @@ package com.mystudio.utils;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.lang.Math;
 
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -97,5 +98,17 @@ public class TileMap {
 	
 	public int maxY(){
 		return height * TurnBasedDriver.TILESIZE;
+	}
+	
+	/**
+	 * Finds the distance (L1 norm) between two tiles
+	 * 
+	 * @param t1
+	 * @param t2
+	 * @return
+	 */
+	public static int dist(Tile t1, Tile t2) {
+		return Math.abs(t1.getX() - t2.getX()) + 
+			   Math.abs(t1.getY() - t2.getY());
 	}
 }

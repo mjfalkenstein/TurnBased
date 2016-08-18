@@ -44,4 +44,8 @@ public class Character extends Entity{
 		g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
 						     yTile * TurnBasedDriver.TILESIZE);
 	}
+	
+	public Stats getStats() {
+		return stats;
+	}
 }

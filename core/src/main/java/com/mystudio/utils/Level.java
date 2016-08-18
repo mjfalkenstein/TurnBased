@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.mystudio.entities.Character;
+import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
 
 import org.mini2Dx.core.game.GameContainer;
@@ -110,6 +111,9 @@ public abstract class Level extends BasicGameScreen{
 		}
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
+		if(currentCharacter != null){
+			highlightCurrentCharacterMovement();
+		}
 		
 		
 		g.translate(camera.getX(), camera.getY());
@@ -218,6 +222,23 @@ public abstract class Level extends BasicGameScreen{
 			else {
 				currentCharacter = null;
 				currentCharacterIndex = -1;
+			}
+		}
+	}
+
+	/**
+	 * Loops over the entire tile map and highlights the tiles that 
+	 * are within the character's movement range
+	 */
+	private void highlightCurrentCharacterMovement(){
+		for(Tile[] tArray : map.getTiles()) {
+			for(Tile t : tArray) {
+				if(TileMap.dist(t, 
+						map.getTiles()[currentCharacter.getXTile()]
+									  [currentCharacter.getYTile()]) 
+						<= currentCharacter.getStats().getMovement()) {
+					t.highlight();
+				}
 			}
 		}
 	}

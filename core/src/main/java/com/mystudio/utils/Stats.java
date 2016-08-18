@@ -84,5 +84,13 @@ public class Stats {
 		this.humanity = humanity;
 	}
 	
+	public int getMovement() {
+		return movement;
+	}
+	
+	public void setMovement(int movement) {
+		this.movement = movement;
+	}
+	
 	
 }
