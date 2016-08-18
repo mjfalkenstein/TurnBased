@@ -8,9 +8,12 @@ public class Stats {
 		skill,
 		agility,
 		atunement,
-		humanity;
+		humanity,
+		movement;
 
-	public Stats(int stamina, int strength, int intellect, int skill, int agility, int atunement, int humanity) {
+	public Stats(int stamina, int strength, int intellect, 
+			     int skill, int agility, int atunement, 
+			     int humanity, int movement) {
 		this.stamina = stamina;
 		this.strength = strength;
 		this.intellect = intellect;
@@ -18,10 +21,11 @@ public class Stats {
 		this.agility = agility;
 		this.atunement = atunement;
 		this.humanity = humanity;
+		this.movement = movement;
 	}
 	
 	public Stats() {
-		this(1, 1, 1, 1, 1, 1, 1);
+		this(1, 1, 1, 1, 1, 1, 1, 1);
 	}
 
 	public int getStamina() {
