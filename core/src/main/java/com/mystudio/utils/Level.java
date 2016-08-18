@@ -132,6 +132,7 @@ public abstract class Level extends BasicGameScreen{
 		
 		for(Entity e : worldEntities){
 			e.update(delta, camera);
+			System.out.println(currentCharacter);
 		}
 		
 		if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
@@ -159,14 +160,64 @@ public abstract class Level extends BasicGameScreen{
 	public void addPlayerCharacter(Character c){
 		worldEntities.add(c);
 		playerCharacters.add(c);
-		currentCharacter = c;
-		currentCharacterIndex++;
 	}
 	
+	
+	/**
+	 * When called during a click, will return the entity that is clicked on
+	 * 
+	 * Searches for player characters first, then world entities.
+	 * 
+	 * Return null if no such entity is found
+	 * 
+	 * @param mouseX
+	 * @param mouseY
+	 * @return
+	 */
+	private Object clickedEntity(int mouseX, int mouseY){
+		for(Character c : playerCharacters) {
+			if(c.mouseoverQ(mouseX, mouseY)) {
+				return c;
+			}
+		}
+		for(Entity e : worldEntities) {
+			if(e.mouseoverQ(mouseX, mouseY)) {
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Function gets the mouse coordinates and if a left click is registered,
+	 * it will find the clicked on entity. If it's a player character, it will
+	 * set the current character to that.
+	 * 
+	 * If no entities are clicked on, it will set the current character to
+	 * null, effectively deselecting the character.
+	 * 
+	 * @param gc
+	 */
 	private void handleMouseInput(GameContainer gc){
 		if(Gdx.input.isButtonPressed(0)){
-			for(Character c : playerCharacters){
-				//if(c.)
+			mouseX = Gdx.input.getX();
+			mouseY = Gdx.input.getY();
+			Object clickTarget;
+			try {
+				clickTarget = clickedEntity(mouseX, mouseY);
+			}
+			catch(Exception e) {
+				currentCharacter = null;
+				currentCharacterIndex = -1;
+				return;
+			}
+			if(playerCharacters.contains(clickTarget)) {
+				currentCharacter = (Character) clickTarget;
+				currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
+			}
+			else {
+				currentCharacter = null;
+				currentCharacterIndex = -1;
 			}
 		}
 	}
