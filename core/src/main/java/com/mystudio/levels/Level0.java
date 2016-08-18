@@ -12,8 +12,6 @@ import org.mini2Dx.core.screen.GameScreen;
 import org.mini2Dx.core.screen.ScreenManager;
 
 import com.mystudio.entities.Character;
-import com.mystudio.enums.TileType;
-import com.mystudio.tiles.Tile;
 import com.mystudio.utils.Level;
 
 public class Level0 extends Level{

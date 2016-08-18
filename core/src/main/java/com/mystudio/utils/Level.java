@@ -106,8 +106,7 @@ public abstract class Level extends BasicGameScreen{
 			e.render(g);
 		}
 		
-		//map.highlightTile(mouseX, mouseY, g);
-		map.get(mouseX, mouseY).highlight();
+		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 		
 		g.translate(camera.getX(), camera.getY());
 	}

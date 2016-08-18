@@ -278,9 +278,9 @@ public class Tile implements Comparable<Tile>{
 		
 		if(highlight){
 			Color c = Color.WHITE;
-			c.a = 0.25f;
+			c.a = 0.33f;
 			g.setColor(c);
-			g.drawRect(x * tileSize, y * tileSize, tileSize, tileSize);
+			g.fillRect(x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 			c.a = 1.0f;
 			g.setColor(c);
 			highlight = false;
