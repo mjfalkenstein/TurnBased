@@ -111,6 +111,7 @@ public abstract class Level extends BasicGameScreen{
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 		
+		
 		g.translate(camera.getX(), camera.getY());
 	}
 
@@ -126,12 +127,12 @@ public abstract class Level extends BasicGameScreen{
 		
 		handleMouseInput(gc);
 		
-		for(Entity e : worldEntities){
-			e.update(delta);
-		}
-		
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
+		
+		for(Entity e : worldEntities){
+			e.update(delta, camera);
+		}
 		
 		if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
 		if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;

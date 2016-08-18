@@ -35,8 +35,8 @@ public class Camera {
 	 */
 	public void followCharacter(GameContainer gc, Graphics g, Entity e) {
 		if(follow){
-			view.setX((e.getX() - gc.getWidth()/2));
-			view.setY((e.getY() - gc.getHeight()/2));
+			view.setX((e.getXTile() - gc.getWidth()/2));
+			view.setY((e.getYTile() - gc.getHeight()/2));
 		}
 	}
 	

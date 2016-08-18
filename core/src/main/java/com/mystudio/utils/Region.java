@@ -54,7 +54,7 @@ public class Region extends Entity {
 	}
 	
 	public boolean contains(Entity e){
-		return highlight.contains(e.getX() + tileSize/2, e.getY() + tileSize/2);
+		return highlight.contains(e.getXTile() + tileSize/2, e.getYTile() + tileSize/2);
 	}
 	
 	public Event getEvent(){
@@ -65,7 +65,7 @@ public class Region extends Entity {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(float delta, Camera camera) {
 		// TODO Auto-generated method stub
 		
 	}

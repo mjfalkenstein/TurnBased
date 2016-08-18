@@ -10,6 +10,7 @@ package com.mystudio.entities;
 import org.mini2Dx.core.graphics.Graphics;
 
 import com.mystudio.turnbased.TurnBasedDriver;
+import com.mystudio.utils.Camera;
 import com.mystudio.utils.Entity;
 import com.mystudio.utils.Stats;
 
@@ -24,12 +25,13 @@ public class Character extends Entity{
 	}
 
 	@Override
-	public void update(float delta) {
-
+	public void update(float delta, Camera camera) {
+		this.xPixel = this.xTile*TurnBasedDriver.TILESIZE + camera.getX();
+		this.yPixel = this.yTile*TurnBasedDriver.TILESIZE + camera.getY();
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawSprite(sprite, x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE);
+		g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, yTile * TurnBasedDriver.TILESIZE);
 	}
 }
