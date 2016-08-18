@@ -13,14 +13,20 @@ import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.Camera;
 import com.mystudio.utils.Entity;
 import com.mystudio.utils.Stats;
+import com.mystudio.utils.StatGrowth;
 
 public class Character extends Entity{
 	
 	int level;
 	Stats stats;
+	StatGrowth growth;
 
-	public Character(int x, int y, String texturePath) {
+	public Character(int x, int y, String texturePath, Stats initialStats, 
+					 StatGrowth growthChances) {
 		super(x, y, texturePath);
+		
+		this.stats = initialStats;
+		this.growth = growthChances;
 		// Scales the sprite about the top left corner
 		sprite.setOrigin(0, 0);
 		sprite.setScale(TurnBasedDriver.TILESIZE / sprite.getWidth(), 

@@ -13,6 +13,8 @@ import org.mini2Dx.core.screen.ScreenManager;
 
 import com.mystudio.entities.Character;
 import com.mystudio.utils.Level;
+import com.mystudio.utils.Stats;
+import com.mystudio.utils.StatGrowth;
 
 public class Level0 extends Level{
 	
@@ -26,7 +28,11 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacter = new Character(6, 6, "test.jpg");
+		Stats defaultStats = new Stats();
+		StatGrowth defaultGrowth = new StatGrowth();
+		
+		testCharacter = new Character(6, 6, "test.jpg", defaultStats, 
+									  defaultGrowth);
 		
 		addPlayerCharacter(testCharacter);
 	}

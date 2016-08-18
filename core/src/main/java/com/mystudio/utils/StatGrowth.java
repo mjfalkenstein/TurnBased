@@ -19,6 +19,10 @@ public class StatGrowth {
 		this.atunement = atunement;
 		this.humanity = humanity;
 	}
+	
+	public StatGrowth() {
+		this(0, 0, 0, 0, 0, 0, 0);
+	}
 
 	public double getStamina() {
 		return stamina;

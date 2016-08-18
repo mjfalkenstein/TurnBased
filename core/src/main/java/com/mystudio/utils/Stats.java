@@ -19,6 +19,10 @@ public class Stats {
 		this.atunement = atunement;
 		this.humanity = humanity;
 	}
+	
+	public Stats() {
+		this(1, 1, 1, 1, 1, 1, 1);
+	}
 
 	public int getStamina() {
 		return stamina;
