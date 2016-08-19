@@ -25,8 +25,9 @@ public class Character extends Entity{
 					 StatGrowth growthChances) {
 		super(x, y, texturePath);
 		
-		this.stats = initialStats;
-		this.growth = growthChances;
+		stats = initialStats;
+		growth = growthChances;
+		
 		// Scales the sprite about the top left corner
 		sprite.setOrigin(0, 0);
 		sprite.setScale(TurnBasedDriver.TILESIZE / sprite.getWidth(), 
@@ -35,8 +36,11 @@ public class Character extends Entity{
 
 	@Override
 	public void update(float delta, Camera camera) {
-		this.xPixel = this.xTile*TurnBasedDriver.TILESIZE + camera.getX();
-		this.yPixel = this.yTile*TurnBasedDriver.TILESIZE + camera.getY();
+		xPixel = xTile*TurnBasedDriver.TILESIZE + camera.getX();
+		yPixel = yTile*TurnBasedDriver.TILESIZE + camera.getY();
+		
+		width = TurnBasedDriver.TILESIZE;
+		height = TurnBasedDriver.TILESIZE;
 	}
 
 	@Override

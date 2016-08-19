@@ -318,6 +318,7 @@ public class Tile implements Comparable<Tile>{
 			output.addAll(map.get(x, y + 1).getPossiblePath(map, distance - 1));
 			output.addAll(map.get(x, y - 1).getPossiblePath(map, distance - 1));
 		}
+		shift = 0;
 		return output;
 	}
 

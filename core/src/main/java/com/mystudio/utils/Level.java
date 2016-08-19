@@ -124,11 +124,6 @@ public abstract class Level extends BasicGameScreen{
 			possiblePath = map.getPossiblePath(currentCharacter.getXTile(), 
 											   currentCharacter.getYTile(), 
 											   currentCharacter.getStats().getMovement());
-			for(Tile[] t1 : map.getTiles()){
-				for(Tile t : t1){
-					t.clear();
-				}
-			}
 		}else{
 			possiblePath.clear();
 		}
