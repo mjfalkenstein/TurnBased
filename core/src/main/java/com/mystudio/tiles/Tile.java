@@ -3,15 +3,18 @@ package com.mystudio.tiles;
 import java.util.Random;
 import java.util.TreeSet;
 
-import org.mini2Dx.core.graphics.Graphics;
-import org.mini2Dx.core.graphics.Sprite;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+
+import org.mini2Dx.core.graphics.Animation;
+import org.mini2Dx.core.graphics.Graphics; 
+import org.mini2Dx.core.graphics.Sprite; 
+import com.badlogic.gdx.graphics.g2d.TextureRegion; 
 import com.mystudio.enums.TileType;
 import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.TileMap;
+import com.mystudio.utils.Utils;
 
 public class Tile implements Comparable<Tile>{
 
@@ -23,11 +26,14 @@ public class Tile implements Comparable<Tile>{
 	Sprite sprite;
 	int shift = 0;
 	boolean highlight = false;
+	Animation<Sprite> idle;
 	
 	float movement, cover, protection, concealment, damage, flammability;
 
 	public Tile(TileType type){
 		this.type = type;
+
+		idle = new Animation<Sprite>();
 
 		switch(type){
 		case TEST:
@@ -181,8 +187,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		spriteX = r.nextInt(3);
-		spriteY = 0;
+		spriteX = 0;
+		spriteY = r.nextInt(3);
 		pathable = true;
 
 		try{
@@ -190,8 +196,13 @@ public class Tile implements Comparable<Tile>{
 		} catch(Exception e){
 			spriteSheet = new Texture(Gdx.files.internal("data/blankTexture.png"));
 		}
-		sprite = new Sprite(spriteSheet);
-		sprite.setOrigin(5, 5);
+		
+		TextureRegion tre = new TextureRegion();
+		tre.setTexture(spriteSheet);
+		tre.setRegion(0, 0, 60, 60);
+		TextureRegion[][] tr = Sprite.split(spriteSheet, 60, 60);
+		
+		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createGrassyMudTile(){
@@ -275,8 +286,8 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public void draw(Graphics g){
-		g.drawSprite(sprite, x * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f, 
-				             y * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f);
+		idle.draw(g, x * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f, 
+				     y * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f);
 		
 		if(highlight){
 			Color c = Color.WHITE;
