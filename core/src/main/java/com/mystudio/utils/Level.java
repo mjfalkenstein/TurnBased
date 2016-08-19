@@ -31,7 +31,9 @@ public abstract class Level extends BasicGameScreen{
 	ArrayList<Character> playerCharacters;
 	ArrayList<Character> enemyCharacters;
 	
-	TreeSet<Tile> possiblePath;
+	TreeSet<Tile> possibleMoves;
+	TreeSet<Tile> pathTiles;
+	Path pathHighlight;
 	
 	int width, height;
 	int mouseX, mouseY;
@@ -79,7 +81,7 @@ public abstract class Level extends BasicGameScreen{
 		camera = new Camera(gc, width * TurnBasedDriver.TILESIZE, height * TurnBasedDriver.TILESIZE);
 		
 		map = new TileMap(width, height);
-		possiblePath = new TreeSet<Tile>();
+		possibleMoves = new TreeSet<Tile>();
 		
 		cameraX = gc.getWidth()/2 - (width * TurnBasedDriver.TILESIZE)/2;
 		cameraY = gc.getHeight()/2 - (height * TurnBasedDriver.TILESIZE)/2;
@@ -116,16 +118,21 @@ public abstract class Level extends BasicGameScreen{
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 		
-		for(Tile t : possiblePath){
+		for(Tile t : possibleMoves){
 			t.highlight();
 		}
 		
 		if(currentCharacter != null){
-			possiblePath = map.getPossiblePath(currentCharacter.getXTile(), 
+			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
 											   currentCharacter.getYTile(), 
 											   currentCharacter.getStats().getMovement());
+			Tile targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, 
+									  (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
+			if(possibleMoves.contains(targetTile)){
+				System.out.println("we did it");
+			}
 		}else{
-			possiblePath.clear();
+			possibleMoves.clear();
 		}
 		
 		g.translate(camera.getX(), camera.getY());

@@ -9,19 +9,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mystudio.tiles.Tile;
+import com.mystudio.turnbased.TurnBasedDriver;
 
 public class Path {
 
 	TreeSet<Tile> path = new TreeSet<Tile>();
 	Texture spriteSheet;
 	Sprite image;
-	int spriteSize;
-	int tileSize;
 
-	public Path(TreeSet<Tile> path, int spriteSize, int tileSize){
+	public Path(TreeSet<Tile> path){
 		this.path = path;
-		this.spriteSize = spriteSize;
-		this.tileSize = tileSize;
 
 		try{
 			spriteSheet = new Texture(Gdx.files.internal("data/pathArrow.png"));
@@ -34,10 +31,15 @@ public class Path {
 
 		//image = new Sprite(spriteSheet, 0, 3);
 		image = new Sprite(spriteSheet);
-		Sprite[][] sprite = (Sprite[][]) image.split(tileSize, tileSize);
+		Sprite[][] sprite = (Sprite[][]) image.split(TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		image = sprite[0][3];
+		
+		int counter = 0;
 
 		for(Tile t : path){
+			g.drawString(""+counter, t.getX(), t.getY());
+			counter++;
+			
 			boolean left = false;
 			boolean right = false;
 			boolean top = false;
@@ -122,7 +124,7 @@ public class Path {
 
 			g.setColor(Color.WHITE);
 			//image.draw(t.getX() * tileSize - (spriteSize - tileSize)/2, t.getY() * tileSize - (spriteSize - tileSize)/2);
-			g.drawSprite(image, t.getX() * tileSize, t.getY() * tileSize);
+			g.drawSprite(image, t.getX() * TurnBasedDriver.TILESIZE, t.getY() * TurnBasedDriver.TILESIZE);
 		}
 	}
 }
