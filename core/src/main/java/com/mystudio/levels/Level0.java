@@ -38,6 +38,7 @@ public class Level0 extends Level{
 		
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){
+				map.set(new Tile(TileType.GRASS), i, j);
 				if((i == 3 && j > 2 && j < 7) || (j == 8 && i > 2 && i < 7))
 					map.set(new Tile(TileType.BLANK), i, j);
 			}

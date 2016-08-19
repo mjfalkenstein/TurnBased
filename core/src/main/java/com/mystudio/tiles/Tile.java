@@ -17,7 +17,7 @@ public class Tile implements Comparable<Tile>{
 
 	Texture spriteSheet;
 	int tileSize, spriteSize;
-	int currentX, currentY, x, y;
+	int spriteX, spriteY, x, y;
 	TileType type;
 	boolean pathable;
 	Sprite sprite;
@@ -142,8 +142,8 @@ public class Tile implements Comparable<Tile>{
 		concealment = 0.0f;
 		damage = 0.0f;
 		flammability = 0.0f;
-		currentX = 0;
-		currentY = 0;
+		spriteX = 0;
+		spriteY = 0;
 		pathable = true;
 		
 		try{
@@ -161,8 +161,8 @@ public class Tile implements Comparable<Tile>{
 		concealment = 0.0f;
 		damage = 0.0f;
 		flammability = 0.0f;
-		currentX = 0;
-		currentY = 0;
+		spriteX = 0;
+		spriteY = 0;
 		pathable = false;
 		
 		try{
@@ -181,8 +181,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		currentX = r.nextInt(3);
-		currentY = 0;
+		spriteX = r.nextInt(3);
+		spriteY = 0;
 		pathable = true;
 
 		try{
@@ -191,6 +191,7 @@ public class Tile implements Comparable<Tile>{
 			spriteSheet = new Texture(Gdx.files.internal("data/blankTexture.png"));
 		}
 		sprite = new Sprite(spriteSheet);
+		sprite.setOrigin(5, 5);
 	}
 
 	void createGrassyMudTile(){
@@ -201,8 +202,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		currentX = r.nextInt(3);
-		currentY = 0;
+		spriteX = r.nextInt(3);
+		spriteY = 0;
 		pathable = true;
 
 		try{
@@ -221,8 +222,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		currentX = r.nextInt(3);
-		currentY = 0;
+		spriteX = r.nextInt(3);
+		spriteY = 0;
 		pathable = true;
 
 		try{
@@ -241,8 +242,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		currentX = r.nextInt(3);
-		currentY = 0;
+		spriteX = r.nextInt(3);
+		spriteY = 0;
 		pathable = true;
 
 		try{
@@ -261,8 +262,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		currentX = r.nextInt(3);
-		currentY = 0;
+		spriteX = r.nextInt(3);
+		spriteY = 0;
 		pathable = true;
 
 		try{
@@ -274,7 +275,8 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public void draw(Graphics g){
-		g.drawSprite(sprite, x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE);
+		g.drawSprite(sprite, x * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f, 
+				             y * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f);
 		
 		if(highlight){
 			Color c = Color.WHITE;
