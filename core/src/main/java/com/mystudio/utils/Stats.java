@@ -25,7 +25,7 @@ public class Stats {
 	}
 	
 	public Stats() {
-		this(1, 1, 1, 1, 1, 1, 1, 1);
+		this(1, 1, 1, 1, 1, 1, 1, 5);
 	}
 
 	public int getStamina() {

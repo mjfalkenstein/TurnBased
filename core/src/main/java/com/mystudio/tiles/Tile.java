@@ -310,7 +310,7 @@ public class Tile implements Comparable<Tile>{
 
 	public TreeSet<Tile> getPossiblePath(TileMap map, int distance){
 		TreeSet<Tile> output = new TreeSet<Tile>();
-		if(pathable && (shift < distance)){
+		if(pathable && (shift <= distance)){
 			shift = distance;
 			output.add(this);
 			output.addAll(map.get(x + 1, y).getPossiblePath(map, distance - 1));

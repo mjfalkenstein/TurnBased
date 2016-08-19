@@ -9,6 +9,7 @@
 package com.mystudio.utils;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -30,6 +31,8 @@ public abstract class Level extends BasicGameScreen{
 	ArrayList<Character> playerCharacters;
 	ArrayList<Character> enemyCharacters;
 	
+	TreeSet<Tile> possiblePath;
+	
 	int width, height;
 	int mouseX, mouseY;
 	int cameraX, cameraY;
@@ -37,7 +40,7 @@ public abstract class Level extends BasicGameScreen{
 	Character currentCharacter;
 	int currentCharacterIndex = -1;
 	
-	TileMap map;
+	protected TileMap map;
 	Camera camera;
 	
 	/**
@@ -76,6 +79,7 @@ public abstract class Level extends BasicGameScreen{
 		camera = new Camera(gc, width * TurnBasedDriver.TILESIZE, height * TurnBasedDriver.TILESIZE);
 		
 		map = new TileMap(width, height);
+		possiblePath = new TreeSet<Tile>();
 		
 		cameraX = gc.getWidth()/2 - (width * TurnBasedDriver.TILESIZE)/2;
 		cameraY = gc.getHeight()/2 - (height * TurnBasedDriver.TILESIZE)/2;
@@ -111,10 +115,23 @@ public abstract class Level extends BasicGameScreen{
 		}
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
-		if(currentCharacter != null){
-			highlightCurrentCharacterMovement();
+		
+		for(Tile t : possiblePath){
+			t.highlight();
 		}
 		
+		if(currentCharacter != null){
+			possiblePath = map.getPossiblePath(currentCharacter.getXTile(), 
+											   currentCharacter.getYTile(), 
+											   currentCharacter.getStats().getMovement());
+			for(Tile[] t1 : map.getTiles()){
+				for(Tile t : t1){
+					t.clear();
+				}
+			}
+		}else{
+			possiblePath.clear();
+		}
 		
 		g.translate(camera.getX(), camera.getY());
 	}
@@ -136,7 +153,6 @@ public abstract class Level extends BasicGameScreen{
 		
 		for(Entity e : worldEntities){
 			e.update(delta, camera);
-			System.out.println(currentCharacter);
 		}
 		
 		if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
@@ -222,23 +238,6 @@ public abstract class Level extends BasicGameScreen{
 			else {
 				currentCharacter = null;
 				currentCharacterIndex = -1;
-			}
-		}
-	}
-
-	/**
-	 * Loops over the entire tile map and highlights the tiles that 
-	 * are within the character's movement range
-	 */
-	private void highlightCurrentCharacterMovement(){
-		for(Tile[] tArray : map.getTiles()) {
-			for(Tile t : tArray) {
-				if(TileMap.dist(t, 
-						map.getTiles()[currentCharacter.getXTile()]
-									  [currentCharacter.getYTile()]) 
-						<= currentCharacter.getStats().getMovement()) {
-					t.highlight();
-				}
 			}
 		}
 	}
