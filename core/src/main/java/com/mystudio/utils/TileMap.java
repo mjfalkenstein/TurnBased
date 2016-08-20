@@ -73,7 +73,7 @@ public class TileMap {
 	
 	public void highlightTile(int x, int y, Graphics g){
 		Tile tile = get(x / TurnBasedDriver.TILESIZE, y / TurnBasedDriver.TILESIZE);
-		tile.highlight();
+		tile.highlight(g);
 	}
 	
 	public Tile[][] getTiles(){

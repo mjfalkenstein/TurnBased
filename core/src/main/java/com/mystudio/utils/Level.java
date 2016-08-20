@@ -119,7 +119,7 @@ public abstract class Level extends BasicGameScreen{
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 		
 		for(Tile t : possibleMoves){
-			t.highlight();
+			t.highlight(g);
 		}
 		
 		if(currentCharacter != null){

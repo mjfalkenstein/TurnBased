@@ -158,8 +158,8 @@ public class Tile implements Comparable<Tile>{
 		}
 		TextureRegion tre = new TextureRegion();
 		tre.setTexture(spriteSheet);
-		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
-		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
+		tre.setRegion(0, 0, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
+		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		
 		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
 	}
@@ -182,8 +182,8 @@ public class Tile implements Comparable<Tile>{
 		}
 		TextureRegion tre = new TextureRegion();
 		tre.setTexture(spriteSheet);
-		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
-		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
+		tre.setRegion(0, 0, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
+		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		
 		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
 	}
@@ -314,22 +314,18 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public void draw(Graphics g){
-		idle.draw(g, x * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f, 
-				     y * TurnBasedDriver.TILESIZE - TurnBasedDriver.TILESIZE * 0.1f);
-		
-		if(highlight){
-			Color c = Color.WHITE;
-			c.a = 0.5f;
-			g.setColor(c);
-			g.fillRect(x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
-			c.a = 1.0f;
-			g.setColor(c);
-			highlight = false;
-		}
+		idle.draw(g, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f, 
+				     y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f);
 	}
 
-	public void highlight(){
-		highlight = true;
+	public void highlight(Graphics g){
+		Color c = Color.WHITE;
+		c.a = 0.5f;
+		g.setColor(c);
+		g.fillRect(x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
+		c.a = 1.0f;
+		g.setColor(c);
+		highlight = false;
 	}
 
 	public void setSprite(Texture newSprite){
