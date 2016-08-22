@@ -123,13 +123,15 @@ public abstract class Level extends BasicGameScreen{
 		}
 		
 		if(currentCharacter != null){
+			currentCharacter.getStats().draw(g, camera);
+			
 			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
 											   currentCharacter.getYTile(), 
 											   currentCharacter.getStats().getMovement());
 			Tile targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, 
 									  (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
 			if(possibleMoves.contains(targetTile)){
-				System.out.println("we did it");
+				//draw the path from player tile to targetTile
 			}
 		}else{
 			possibleMoves.clear();
