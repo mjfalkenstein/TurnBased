@@ -7,12 +7,16 @@
 
 package com.mystudio.entities;
 
+import java.util.ArrayList;
+
 import org.mini2Dx.core.graphics.Graphics;
 
+import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.Camera;
 import com.mystudio.utils.Entity;
 import com.mystudio.utils.Stats;
+import com.mystudio.utils.TileMap;
 import com.mystudio.utils.StatGrowth;
 
 public class Character extends Entity{
@@ -51,5 +55,15 @@ public class Character extends Entity{
 	
 	public Stats getStats() {
 		return stats;
+	}
+	
+	public ArrayList<Tile> getTilesInRange(TileMap m){
+		ArrayList<Tile> output = new ArrayList<Tile>();
+		
+		Tile startTile = m.get(xTile, yTile);
+		output.addAll(startTile.getPossiblePath(m, stats.getMaxRange()));
+		output.removeAll(startTile.getPossiblePath(m, stats.getMinRange()));
+		
+		return output;
 	}
 }

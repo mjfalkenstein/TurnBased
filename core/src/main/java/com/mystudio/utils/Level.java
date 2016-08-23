@@ -35,15 +35,20 @@ public abstract class Level extends BasicGameScreen{
 	TreeSet<Tile> pathTiles;
 	Path pathHighlight;
 	
+	ArrayList<Tile> tilesInRange;
+	
 	int width, height;
 	int mouseX, mouseY;
 	int cameraX, cameraY;
 	
 	Character currentCharacter;
+	Character targetCharacter;
 	int currentCharacterIndex = -1;
 	
 	protected TileMap map;
 	Camera camera;
+	
+	boolean inBattle;
 	
 	/**
 	 * Constructor
@@ -83,8 +88,12 @@ public abstract class Level extends BasicGameScreen{
 		map = new TileMap(width, height);
 		possibleMoves = new TreeSet<Tile>();
 		
+		tilesInRange = new ArrayList<Tile>();
+		
 		cameraX = gc.getWidth()/2 - (width * TurnBasedDriver.TILESIZE)/2;
 		cameraY = gc.getHeight()/2 - (height * TurnBasedDriver.TILESIZE)/2;
+		
+		inBattle = false;
 	}
 
 	/**
@@ -118,12 +127,11 @@ public abstract class Level extends BasicGameScreen{
 		
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 		
-		for(Tile t : possibleMoves){
-			t.highlight(g);
-		}
-		
 		if(currentCharacter != null){
-			currentCharacter.getStats().drawRight(g, camera);
+			currentCharacter.getStats().drawLeft(g, camera);
+			if(inBattle){
+				targetCharacter.getStats().drawRight(g, camera);
+			}
 			
 			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
 											   currentCharacter.getYTile(), 
@@ -135,6 +143,15 @@ public abstract class Level extends BasicGameScreen{
 			}
 		}else{
 			possibleMoves.clear();
+			tilesInRange.clear();
+		}	
+		
+		for(Tile t : possibleMoves){
+			t.highlight(g);
+		}
+		
+		for(Tile t : tilesInRange){
+			t.highlight(g);
 		}
 		
 		g.translate(camera.getX(), camera.getY());
@@ -149,7 +166,6 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
-		
 		handleMouseInput(gc);
 		
 		mouseX = Gdx.input.getX();
@@ -163,6 +179,10 @@ public abstract class Level extends BasicGameScreen{
 		if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
 		if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
 		if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
+		
+		if(currentCharacter != null){
+			tilesInRange = currentCharacter.getTilesInRange(map);
+		}
 		
 		camera.move(cameraX, cameraY);
 	}
@@ -186,6 +206,16 @@ public abstract class Level extends BasicGameScreen{
 		playerCharacters.add(c);
 	}
 	
+	/**
+	 * This function adds a new player character to the level
+	 * 
+	 * @param e - the character to add
+	 */
+	public void addEnemyCharacter(Character c){
+		worldEntities.add(c);
+		enemyCharacters.add(c);
+	}
+	
 	
 	/**
 	 * When called during a click, will return the entity that is clicked on
@@ -198,7 +228,7 @@ public abstract class Level extends BasicGameScreen{
 	 * @param mouseY
 	 * @return
 	 */
-	private Object clickedEntity(int mouseX, int mouseY){
+	private Entity clickedEntity(int mouseX, int mouseY){
 		for(Character c : playerCharacters) {
 			if(c.mouseoverQ(mouseX, mouseY)) {
 				return c;
@@ -238,9 +268,21 @@ public abstract class Level extends BasicGameScreen{
 			if(playerCharacters.contains(clickTarget)) {
 				currentCharacter = (Character) clickTarget;
 				currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
-			}
-			else {
+				
+			}else if(enemyCharacters.contains(clickTarget)){
+				targetCharacter = (Character) clickTarget;
+				currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
+				if(currentCharacter != null){
+					Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
+					if(currentCharacter.getTilesInRange(map).contains(t)){
+						inBattle = true;
+					}
+				}
+				
+			}else{
 				currentCharacter = null;
+				targetCharacter = null;
+				inBattle = false;
 				currentCharacterIndex = -1;
 			}
 		}

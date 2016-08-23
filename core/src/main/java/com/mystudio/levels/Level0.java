@@ -14,13 +14,14 @@ import org.mini2Dx.core.screen.ScreenManager;
 import com.mystudio.entities.Character;
 import com.mystudio.enums.TileType;
 import com.mystudio.tiles.Tile;
+import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.Level;
 import com.mystudio.utils.Stats;
 import com.mystudio.utils.StatGrowth;
 
 public class Level0 extends Level{
 	
-	Character testCharacter;
+	Character testCharacter, testEnemy;
 
 	public Level0(int ID, int width, int height) {
 		super(ID, width, height);
@@ -30,11 +31,8 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		Stats defaultStats = new Stats();
-		StatGrowth defaultGrowth = new StatGrowth();
-		
-		testCharacter = new Character(6, 6, "test.jpg", defaultStats, 
-									  defaultGrowth);
+		testCharacter = new Character(6, 6, "test.jpg", TurnBasedDriver.DEFAULTSTATS, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy     = new Character(6, 5, "portraitTemplate.png", TurnBasedDriver.DEFAULTSTATS, TurnBasedDriver.DEFAULTGROWTH);
 		
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){
@@ -45,6 +43,7 @@ public class Level0 extends Level{
 		}
 		
 		addPlayerCharacter(testCharacter);
+		addEnemyCharacter(testEnemy);
 	}
 
 	@Override

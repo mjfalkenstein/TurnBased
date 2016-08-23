@@ -33,7 +33,7 @@ public class Stats{
 	}
 	
 	public Stats() {
-		this(10, 1, 1, 1, 1, 1, 1, 5, 1, 1);
+		this(10, 1, 1, 1, 1, 1, 1, 5, 0, 1);
 	}
 	
 	public void drawLeft(Graphics g, Camera c){
@@ -149,7 +149,7 @@ public class Stats{
 	}
 	
 	public int getMaxRange(){
-		return statsTable.get("Max Range");
+		return statsTable.get("Max Range\t");
 	}
 	
 	public void setMaxRange(int maxRange){
