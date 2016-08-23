@@ -36,12 +36,11 @@ public class Stats{
 		this(10, 1, 1, 1, 1, 1, 1, 5, 1, 1);
 	}
 	
-	public void draw(Graphics g, Camera c){
+	public void drawLeft(Graphics g, Camera c){
 		int counter = 0;
 		Iterator it = statsTable.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry pair = (Map.Entry) it.next();
-			System.out.println("" + pair.getKey() + " " + pair.getValue());
 			g.setColor(Color.BLACK);
 			g.drawString((String)pair.getKey(), 
 						 g.getCurrentWidth() / 100 - c.getX(), 
@@ -49,11 +48,24 @@ public class Stats{
 			g.drawString("                       " + (Integer)pair.getValue(), 
 						 g.getCurrentWidth() / 100 - c.getX(),				
 						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
-
-			
 			counter++;
 		}
-		System.out.println("\n========================");
+	}
+	
+	public void drawRight(Graphics g, Camera c){
+		int counter = 0;
+		Iterator it = statsTable.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry) it.next();
+			g.setColor(Color.BLACK);
+			g.drawString((String)pair.getKey(), 
+						 g.getCurrentWidth() / 10 * 9 - c.getX(), 
+						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
+			g.drawString("                       " + (Integer)pair.getValue(), 
+						 g.getCurrentWidth() / 10 * 9 - c.getX(),				
+						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
+			counter++;
+		}
 	}
 
 	public int getCurrentHealth() {

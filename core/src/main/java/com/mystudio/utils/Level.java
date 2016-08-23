@@ -123,7 +123,7 @@ public abstract class Level extends BasicGameScreen{
 		}
 		
 		if(currentCharacter != null){
-			currentCharacter.getStats().draw(g, camera);
+			currentCharacter.getStats().drawRight(g, camera);
 			
 			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
 											   currentCharacter.getYTile(), 
