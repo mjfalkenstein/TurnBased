@@ -155,7 +155,6 @@ public abstract class Level extends BasicGameScreen{
 						if(playerCharacters.contains(clickTarget)) {
 							currentCharacter = (Character) clickTarget;
 							currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
-
 						}else if(enemyCharacters.contains(clickTarget)){
 							targetCharacter = (Character) clickTarget;
 							currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
@@ -165,7 +164,6 @@ public abstract class Level extends BasicGameScreen{
 									inBattle = true;
 								}
 							}
-
 						}else{
 							currentCharacter = null;
 							targetCharacter = null;
@@ -174,7 +172,7 @@ public abstract class Level extends BasicGameScreen{
 						}
 					}else if(inBattle){
 						if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
-							Utils.doBattle(currentCharacter, targetCharacter);
+							Utils.doBattle(currentCharacter, targetCharacter, true, true);
 							pause = false;
 							targetCharacter = null;
 							inBattle = false;
@@ -306,8 +304,6 @@ public abstract class Level extends BasicGameScreen{
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
 
-		//handleMouseInput(gc);
-
 		if(!pause){
 			for(Entity e : worldEntities){
 				e.update(delta, camera);
@@ -323,6 +319,18 @@ public abstract class Level extends BasicGameScreen{
 			}
 
 			camera.move(cameraX, cameraY);
+		}
+		
+		for(Character c : playerCharacters){
+			if(!c.isAlive()){
+				playerCharacters.remove(c);
+			}
+		}
+		
+		for(Character c : enemyCharacters){
+			if(!c.isAlive()){
+				enemyCharacters.remove(c);
+			}
 		}
 	}
 

@@ -22,6 +22,8 @@ import com.mystudio.utils.StatGrowth;
 public class Level0 extends Level{
 	
 	Character testCharacter, testEnemy;
+	
+	Stats testCharacterStats, testEnemyStats;
 
 	public Level0(int ID, int width, int height) {
 		super(ID, width, height);
@@ -31,8 +33,11 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacter = new Character(6, 6, "test.jpg", TurnBasedDriver.DEFAULTSTATS, TurnBasedDriver.DEFAULTGROWTH);
-		testEnemy     = new Character(6, 5, "portraitTemplate.png", TurnBasedDriver.DEFAULTSTATS, TurnBasedDriver.DEFAULTGROWTH);
+		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 0, 2);
+		testEnemyStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 1, 3);
+		
+		testCharacter = new Character(6, 6, "test.jpg", testCharacterStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy     = new Character(6, 5, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
 		
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){

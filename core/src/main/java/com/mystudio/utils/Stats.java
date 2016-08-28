@@ -16,8 +16,8 @@ public class Stats{
 
 	public Stats(int maxHealth, int strength, int intellect, 
 			     int accuracy, int agility, int atunement, 
-			     int humanity, int movement, int minRange,
-			     int maxRange) {
+			     int humanity, int armor, int resistence, 
+			     int movement, int minRange, int maxRange) {
 
 		statsTable.put("Health\t\t", maxHealth);
 		statsTable.put("Max Health\t", maxHealth);
@@ -27,13 +27,15 @@ public class Stats{
 		statsTable.put("Agility\t\t", agility);
 		statsTable.put("Atunement\t", atunement);
 		statsTable.put("Humanity\t", humanity);
+		statsTable.put("Armor\t\t", armor);
+		statsTable.put("Resistence\t", resistence);
 		statsTable.put("Movement\t", movement);
 		statsTable.put("Min Range\t", minRange);
 		statsTable.put("Max Range\t", maxRange);
 	}
 	
 	public Stats() {
-		this(10, 1, 1, 1, 1, 1, 1, 5, 0, 1);
+		this(10, 1, 1, 1, 1, 1, 1, 1, 1, 5, 0, 1);
 	}
 	
 	public void drawLeft(Graphics g, Camera c){
@@ -66,6 +68,18 @@ public class Stats{
 						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 			counter++;
 		}
+	}
+	
+	public String toString(){
+		String output = "";
+		
+		Iterator it = statsTable.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry) it.next();
+			output += pair.getKey() + "\t" + pair.getValue() + "\n";
+		}
+		
+		return output;
 	}
 
 	public int getCurrentHealth() {
@@ -130,6 +144,22 @@ public class Stats{
 
 	public void setHumanity(int humanity) {
 		statsTable.put("Humanity\t", humanity);
+	}
+	
+	public int getArmor() {
+		return statsTable.get("Armor\t\t");
+	}
+
+	public void setArmor(int armor) {
+		statsTable.put("Armor\t\t", armor);
+	}
+	
+	public int getResistence() {
+		return statsTable.get("Resistence\t");
+	}
+
+	public void setResistence(int resistence) {
+		statsTable.put("Resistence\t", resistence);
 	}
 	
 	public int getMovement() {

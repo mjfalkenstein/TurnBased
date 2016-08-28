@@ -48,12 +48,18 @@ public class Character extends Entity{
 		
 		width = TurnBasedDriver.TILESIZE;
 		height = TurnBasedDriver.TILESIZE;
+		
+		if(stats.getCurrentHealth() <= 0){
+			isAlive = false;
+		}
 	}
 
 	@Override
 	public void render(Graphics g, Camera camera) {
-		g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
-						     yTile * TurnBasedDriver.TILESIZE);
+		if(isAlive){
+			g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
+								 yTile * TurnBasedDriver.TILESIZE);
+		}
 	}
 	
 	public Stats getStats() {
@@ -68,5 +74,33 @@ public class Character extends Entity{
 		output.removeAll(startTile.getPossiblePath(m, stats.getMinRange()));
 		
 		return output;
+	}
+	
+	public void setAttacked(boolean attacked){
+		hasAttacked = attacked;
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public boolean isHasMoved() {
+		return hasMoved;
+	}
+
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
+
+	public boolean isHasAttacked() {
+		return hasAttacked;
+	}
+
+	public void setHasAttacked(boolean hasAttacked) {
+		this.hasAttacked = hasAttacked;
 	}
 }
