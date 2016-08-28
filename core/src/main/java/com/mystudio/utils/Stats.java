@@ -41,7 +41,7 @@ public class Stats{
 		Iterator it = statsTable.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry pair = (Map.Entry) it.next();
-			g.setColor(Color.BLACK);
+			g.setColor(Color.WHITE);
 			g.drawString((String)pair.getKey(), 
 						 g.getCurrentWidth() / 100 - c.getX(), 
 						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
@@ -57,7 +57,7 @@ public class Stats{
 		Iterator it = statsTable.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry pair = (Map.Entry) it.next();
-			g.setColor(Color.BLACK);
+			g.setColor(Color.WHITE);
 			g.drawString((String)pair.getKey(), 
 						 g.getCurrentWidth() / 10 * 9 - c.getX(), 
 						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());

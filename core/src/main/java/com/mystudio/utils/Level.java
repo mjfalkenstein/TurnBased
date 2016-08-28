@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.mystudio.entities.Button;
 import com.mystudio.entities.Character;
@@ -111,6 +113,102 @@ public abstract class Level extends BasicGameScreen{
 		buttons.add(battleCancelButton);
 
 		inBattle = false;
+
+		Gdx.input.setInputProcessor(new InputProcessor(){
+
+			@Override
+			public boolean keyDown(int keycode) {
+				return false;
+			}
+
+			@Override
+			public boolean keyUp(int keycode) {
+				return false;
+			}
+
+			@Override
+			public boolean keyTyped(char character) {
+				return false;
+			}
+
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
+
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				if(button == Input.Buttons.LEFT){
+					mouseX = Gdx.input.getX();
+					mouseY = Gdx.input.getY();
+					Entity clickTarget;
+
+					if(!pause){
+						try {
+							clickTarget = clickedEntity(mouseX, mouseY);
+						}
+						catch(Exception e) {
+							currentCharacter = null;
+							currentCharacterIndex = -1;
+							return false;
+						}
+						if(playerCharacters.contains(clickTarget)) {
+							currentCharacter = (Character) clickTarget;
+							currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
+
+						}else if(enemyCharacters.contains(clickTarget)){
+							targetCharacter = (Character) clickTarget;
+							currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
+							if(currentCharacter != null){
+								Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
+								if(currentCharacter.getTilesInRange(map).contains(t)){
+									inBattle = true;
+								}
+							}
+
+						}else{
+							currentCharacter = null;
+							targetCharacter = null;
+							inBattle = false;
+							currentCharacterIndex = -1;
+						}
+					}else if(inBattle){
+						if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
+							Utils.doBattle(currentCharacter, targetCharacter);
+							pause = false;
+							targetCharacter = null;
+							inBattle = false;
+							battleConfirmButton.hide();
+							battleCancelButton.hide();
+						}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
+							pause = false;
+							targetCharacter = null;
+							inBattle = false;
+							battleConfirmButton.hide();
+							battleCancelButton.hide();
+						}
+					}
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
+
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) {
+				return false;
+			}
+
+			@Override
+			public boolean scrolled(int amount) {
+				return false;
+			}
+
+		});
 	}
 
 	/**
@@ -140,9 +238,32 @@ public abstract class Level extends BasicGameScreen{
 
 		for(Entity e : worldEntities){
 			e.render(g, camera);
+		}	
+
+		for(Tile t : possibleMoves){
+			t.highlight(g);
 		}
 
-		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
+		for(Tile t : tilesInRange){
+			t.highlight(g);
+		}
+
+		for(Character c : playerCharacters){
+			c.render(g, camera);
+		}
+
+		for(Character c : enemyCharacters){
+			c.render(g, camera);
+		}
+
+		if(!pause) map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
+
+		if(pause){
+			Color c = Color.BLACK;
+			c.a = 0.5f;
+			g.setColor(c);
+			g.fillRect(-camera.getX(), -camera.getY(), gc.getWidth(), gc.getHeight());
+		}
 
 		if(currentCharacter != null){
 			currentCharacter.getStats().drawLeft(g, camera);
@@ -159,21 +280,12 @@ public abstract class Level extends BasicGameScreen{
 			Tile targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, 
 					(mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
 			if(possibleMoves.contains(targetTile)){
-				//draw the path from player tile to targetTile
+				//calculate and draw the path from player tile to targetTile
 			}
 		}else{
 			possibleMoves.clear();
 			tilesInRange.clear();
-		}	
-
-		for(Tile t : possibleMoves){
-			t.highlight(g);
 		}
-
-		for(Tile t : tilesInRange){
-			t.highlight(g);
-		}
-
 		for(Button b : buttons){
 			b.render(g, camera);
 		}
@@ -194,7 +306,7 @@ public abstract class Level extends BasicGameScreen{
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
 
-		handleMouseInput(gc);
+		//handleMouseInput(gc);
 
 		if(!pause){
 			for(Entity e : worldEntities){
@@ -267,69 +379,5 @@ public abstract class Level extends BasicGameScreen{
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Function gets the mouse coordinates and if a left click is registered,
-	 * it will find the clicked on entity. If it's a player character, it will
-	 * set the current character to that.
-	 * 
-	 * If no entities are clicked on, it will set the current character to
-	 * null, effectively deselecting the character.
-	 * 
-	 * @param gc
-	 */
-	private void handleMouseInput(GameContainer gc){
-		if(Gdx.input.isButtonPressed(0)){
-			mouseX = Gdx.input.getX();
-			mouseY = Gdx.input.getY();
-			Entity clickTarget;
-
-			if(!pause){
-				try {
-					clickTarget = clickedEntity(mouseX, mouseY);
-				}
-				catch(Exception e) {
-					currentCharacter = null;
-					currentCharacterIndex = -1;
-					return;
-				}
-				if(playerCharacters.contains(clickTarget)) {
-					currentCharacter = (Character) clickTarget;
-					currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
-
-				}else if(enemyCharacters.contains(clickTarget)){
-					targetCharacter = (Character) clickTarget;
-					currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
-					if(currentCharacter != null){
-						Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
-						if(currentCharacter.getTilesInRange(map).contains(t)){
-							inBattle = true;
-						}
-					}
-
-				}else{
-					currentCharacter = null;
-					targetCharacter = null;
-					inBattle = false;
-					currentCharacterIndex = -1;
-				}
-			}else if(inBattle){
-				if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
-					Utils.doBattle(currentCharacter, targetCharacter);
-					pause = false;
-					targetCharacter = null;
-					inBattle = false;
-					battleConfirmButton.hide();
-					battleCancelButton.hide();
-				}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
-					pause = false;
-					targetCharacter = null;
-					inBattle = false;
-					battleConfirmButton.hide();
-					battleCancelButton.hide();
-				}
-			}
-		}
 	}
 }

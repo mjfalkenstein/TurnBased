@@ -24,6 +24,9 @@ public class Character extends Entity{
 	int level;
 	Stats stats;
 	StatGrowth growth;
+	boolean isAlive = true;
+	boolean hasMoved = false;
+	boolean hasAttacked = false;
 
 	public Character(int x, int y, String texturePath, Stats initialStats, 
 					 StatGrowth growthChances) {
