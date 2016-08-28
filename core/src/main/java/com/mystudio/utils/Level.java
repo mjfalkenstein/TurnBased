@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.mystudio.entities.Button;
 import com.mystudio.entities.Character;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
@@ -30,26 +31,31 @@ public abstract class Level extends BasicGameScreen{
 	ArrayList<Entity> worldEntities;
 	ArrayList<Character> playerCharacters;
 	ArrayList<Character> enemyCharacters;
-	
+	ArrayList<Button> buttons;
+
 	TreeSet<Tile> possibleMoves;
 	TreeSet<Tile> pathTiles;
 	Path pathHighlight;
-	
+
 	ArrayList<Tile> tilesInRange;
-	
+
 	int width, height;
 	int mouseX, mouseY;
 	int cameraX, cameraY;
-	
+
 	Character currentCharacter;
 	Character targetCharacter;
 	int currentCharacterIndex = -1;
-	
+
 	protected TileMap map;
 	Camera camera;
-	
+
+	Button battleConfirmButton;
+	Button battleCancelButton;
+
 	boolean inBattle;
-	
+	boolean pause = false;
+
 	/**
 	 * Constructor
 	 * 
@@ -82,17 +88,28 @@ public abstract class Level extends BasicGameScreen{
 		worldEntities = new ArrayList<Entity>();
 		playerCharacters = new ArrayList<Character>();
 		enemyCharacters = new ArrayList<Character>();
-		
+		buttons = new ArrayList<Button>();
+
 		camera = new Camera(gc, width * TurnBasedDriver.TILESIZE, height * TurnBasedDriver.TILESIZE);
-		
+
 		map = new TileMap(width, height);
 		possibleMoves = new TreeSet<Tile>();
-		
+
 		tilesInRange = new ArrayList<Tile>();
-		
+
 		cameraX = gc.getWidth()/2 - (width * TurnBasedDriver.TILESIZE)/2;
 		cameraY = gc.getHeight()/2 - (height * TurnBasedDriver.TILESIZE)/2;
-		
+
+		battleConfirmButton = new Button(0, 0, "battleConfirmButtonSprite.png");
+		battleConfirmButton.moveByPixel(gc.getWidth()/2 - TurnBasedDriver.BUTTON_WIDTH/2,
+				gc.getHeight()/2 - TurnBasedDriver.BUTTON_HEIGHT/2 - 50);
+		battleCancelButton  = new Button(0, 0, "battleCancelButtonSprite.png");
+		battleCancelButton.moveByPixel( gc.getWidth()/2 - TurnBasedDriver.BUTTON_WIDTH/2,
+				gc.getHeight()/2 - TurnBasedDriver.BUTTON_HEIGHT/2 + 50);
+
+		buttons.add(battleConfirmButton);
+		buttons.add(battleCancelButton);
+
 		inBattle = false;
 	}
 
@@ -104,7 +121,7 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void interpolate(GameContainer gc, float alpha) {
-		
+
 	}
 
 	/**
@@ -116,28 +133,31 @@ public abstract class Level extends BasicGameScreen{
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		g.translate(-camera.getX(), -camera.getY());
-		
+
 		g.setBackgroundColor(Color.GRAY);
-		
+
 		map.draw(g);
-		
+
 		for(Entity e : worldEntities){
 			e.render(g, camera);
 		}
-		
+
 		map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
-		
+
 		if(currentCharacter != null){
 			currentCharacter.getStats().drawLeft(g, camera);
 			if(inBattle){
 				targetCharacter.getStats().drawRight(g, camera);
+				pause = true;
+				battleConfirmButton.show();
+				battleCancelButton.show();
 			}
-			
+
 			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
-											   currentCharacter.getYTile(), 
-											   currentCharacter.getStats().getMovement());
+					currentCharacter.getYTile(), 
+					currentCharacter.getStats().getMovement());
 			Tile targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, 
-									  (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
+					(mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
 			if(possibleMoves.contains(targetTile)){
 				//draw the path from player tile to targetTile
 			}
@@ -145,15 +165,19 @@ public abstract class Level extends BasicGameScreen{
 			possibleMoves.clear();
 			tilesInRange.clear();
 		}	
-		
+
 		for(Tile t : possibleMoves){
 			t.highlight(g);
 		}
-		
+
 		for(Tile t : tilesInRange){
 			t.highlight(g);
 		}
-		
+
+		for(Button b : buttons){
+			b.render(g, camera);
+		}
+
 		g.translate(camera.getX(), camera.getY());
 	}
 
@@ -166,27 +190,30 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
-		handleMouseInput(gc);
-		
+
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
-		
-		for(Entity e : worldEntities){
-			e.update(delta, camera);
+
+		handleMouseInput(gc);
+
+		if(!pause){
+			for(Entity e : worldEntities){
+				e.update(delta, camera);
+			}
+
+			if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
+			if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
+			if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
+			if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
+
+			if(currentCharacter != null){
+				tilesInRange = currentCharacter.getTilesInRange(map);
+			}
+
+			camera.move(cameraX, cameraY);
 		}
-		
-		if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
-		if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
-		if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
-		if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
-		
-		if(currentCharacter != null){
-			tilesInRange = currentCharacter.getTilesInRange(map);
-		}
-		
-		camera.move(cameraX, cameraY);
 	}
-	
+
 	/**
 	 * This function adds a generic entity to the world
 	 * 
@@ -195,7 +222,7 @@ public abstract class Level extends BasicGameScreen{
 	public void addEntity(Entity e){
 		worldEntities.add(e);
 	}
-	
+
 	/**
 	 * This function adds a new player character to the level
 	 * 
@@ -205,7 +232,7 @@ public abstract class Level extends BasicGameScreen{
 		worldEntities.add(c);
 		playerCharacters.add(c);
 	}
-	
+
 	/**
 	 * This function adds a new player character to the level
 	 * 
@@ -215,8 +242,8 @@ public abstract class Level extends BasicGameScreen{
 		worldEntities.add(c);
 		enemyCharacters.add(c);
 	}
-	
-	
+
+
 	/**
 	 * When called during a click, will return the entity that is clicked on
 	 * 
@@ -241,7 +268,7 @@ public abstract class Level extends BasicGameScreen{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Function gets the mouse coordinates and if a left click is registered,
 	 * it will find the clicked on entity. If it's a player character, it will
@@ -256,34 +283,52 @@ public abstract class Level extends BasicGameScreen{
 		if(Gdx.input.isButtonPressed(0)){
 			mouseX = Gdx.input.getX();
 			mouseY = Gdx.input.getY();
-			Object clickTarget;
-			try {
-				clickTarget = clickedEntity(mouseX, mouseY);
-			}
-			catch(Exception e) {
-				currentCharacter = null;
-				currentCharacterIndex = -1;
-				return;
-			}
-			if(playerCharacters.contains(clickTarget)) {
-				currentCharacter = (Character) clickTarget;
-				currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
-				
-			}else if(enemyCharacters.contains(clickTarget)){
-				targetCharacter = (Character) clickTarget;
-				currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
-				if(currentCharacter != null){
-					Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
-					if(currentCharacter.getTilesInRange(map).contains(t)){
-						inBattle = true;
-					}
+			Entity clickTarget;
+
+			if(!pause){
+				try {
+					clickTarget = clickedEntity(mouseX, mouseY);
 				}
-				
-			}else{
-				currentCharacter = null;
-				targetCharacter = null;
-				inBattle = false;
-				currentCharacterIndex = -1;
+				catch(Exception e) {
+					currentCharacter = null;
+					currentCharacterIndex = -1;
+					return;
+				}
+				if(playerCharacters.contains(clickTarget)) {
+					currentCharacter = (Character) clickTarget;
+					currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
+
+				}else if(enemyCharacters.contains(clickTarget)){
+					targetCharacter = (Character) clickTarget;
+					currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
+					if(currentCharacter != null){
+						Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
+						if(currentCharacter.getTilesInRange(map).contains(t)){
+							inBattle = true;
+						}
+					}
+
+				}else{
+					currentCharacter = null;
+					targetCharacter = null;
+					inBattle = false;
+					currentCharacterIndex = -1;
+				}
+			}else if(inBattle){
+				if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
+					Utils.doBattle(currentCharacter, targetCharacter);
+					pause = false;
+					targetCharacter = null;
+					inBattle = false;
+					battleConfirmButton.hide();
+					battleCancelButton.hide();
+				}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
+					pause = false;
+					targetCharacter = null;
+					inBattle = false;
+					battleConfirmButton.hide();
+					battleCancelButton.hide();
+				}
 			}
 		}
 	}

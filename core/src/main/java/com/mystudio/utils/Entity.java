@@ -19,8 +19,6 @@ public abstract class Entity {
 	protected Sprite sprite;
 	protected Texture texture;
 	
-
-
 	/**
 	 * Constructor 
 	 * 
@@ -58,7 +56,7 @@ public abstract class Entity {
 	 */
 	public abstract void render(Graphics g, Camera camera);
 	
-	public void move(int x, int y){
+	public void moveByTile(int x, int y){
 		this.xTile = x;
 		this.xPixel = x*TurnBasedDriver.TILESIZE;
 		this.yTile = y;
@@ -99,6 +97,11 @@ public abstract class Entity {
 
 	public int getYPixel() {
 		return yPixel;
+	}
+	
+	public void moveByPixel(int x, int y){
+		xPixel = x;
+		yPixel = y;
 	}
 
 }
