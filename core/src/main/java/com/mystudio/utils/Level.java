@@ -57,6 +57,9 @@ public abstract class Level extends BasicGameScreen{
 
 	boolean inBattle;
 	boolean pause = false;
+	
+	BattlePrediction battlePredictionPlayer;
+	BattlePrediction battlePredictionEnemy;
 
 	/**
 	 * Constructor
@@ -113,6 +116,9 @@ public abstract class Level extends BasicGameScreen{
 		buttons.add(battleCancelButton);
 
 		inBattle = false;
+		
+		battlePredictionPlayer = new BattlePrediction(null, null, true, true);
+		battlePredictionEnemy = new BattlePrediction(null, null, true, true);
 
 		Gdx.input.setInputProcessor(new InputProcessor(){
 
@@ -175,12 +181,16 @@ public abstract class Level extends BasicGameScreen{
 							Utils.doBattle(currentCharacter, targetCharacter, true, true);
 							pause = false;
 							targetCharacter = null;
+							battlePredictionPlayer.hide();
+							battlePredictionEnemy.hide();
 							inBattle = false;
 							battleConfirmButton.hide();
 							battleCancelButton.hide();
 						}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
 							pause = false;
 							targetCharacter = null;
+							battlePredictionPlayer.hide();
+							battlePredictionEnemy.hide();
 							inBattle = false;
 							battleConfirmButton.hide();
 							battleCancelButton.hide();
@@ -266,6 +276,8 @@ public abstract class Level extends BasicGameScreen{
 		if(currentCharacter != null){
 			currentCharacter.getStats().drawLeft(g, camera);
 			if(inBattle){
+				battlePredictionPlayer.renderLeft(g, camera);
+				battlePredictionEnemy.renderRight(g, camera);
 				targetCharacter.getStats().drawRight(g, camera);
 				pause = true;
 				battleConfirmButton.show();
@@ -320,18 +332,26 @@ public abstract class Level extends BasicGameScreen{
 
 			camera.move(cameraX, cameraY);
 		}
+
+		battlePredictionPlayer = new BattlePrediction(currentCharacter, targetCharacter, true, true);
+		battlePredictionEnemy = new BattlePrediction(targetCharacter, currentCharacter, true, true);
 		
-		for(Character c : playerCharacters){
-			if(!c.isAlive()){
-				playerCharacters.remove(c);
-			}
+		if(inBattle){
+			battlePredictionPlayer.show();
+			battlePredictionEnemy.show();
 		}
 		
-		for(Character c : enemyCharacters){
-			if(!c.isAlive()){
-				enemyCharacters.remove(c);
-			}
-		}
+//		for(Character c : playerCharacters){
+//			if(!c.isAlive()){
+//				playerCharacters.remove(c);
+//			}
+//		}
+//		
+//		for(Character c : enemyCharacters){
+//			if(!c.isAlive()){
+//				enemyCharacters.remove(c);
+//			}
+//		}
 	}
 
 	/**

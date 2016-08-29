@@ -39,34 +39,36 @@ public class Stats{
 	}
 	
 	public void drawLeft(Graphics g, Camera c){
+		g.setColor(Color.WHITE);
 		int counter = 0;
 		Iterator it = statsTable.entrySet().iterator();
+		g.drawString("Attacker Stats: ", g.getCurrentWidth() / 100 - c.getX(), g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 		while(it.hasNext()){
+			counter++;
 			Map.Entry pair = (Map.Entry) it.next();
-			g.setColor(Color.WHITE);
 			g.drawString((String)pair.getKey(), 
 						 g.getCurrentWidth() / 100 - c.getX(), 
-						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
+						 g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 			g.drawString("                       " + (Integer)pair.getValue(), 
 						 g.getCurrentWidth() / 100 - c.getX(),				
-						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
-			counter++;
+						 g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 		}
 	}
 	
 	public void drawRight(Graphics g, Camera c){
+		g.setColor(Color.WHITE);
 		int counter = 0;
 		Iterator it = statsTable.entrySet().iterator();
+		g.drawString("Defender Stats: ",  g.getCurrentWidth() / 10 - c.getX(), g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 		while(it.hasNext()){
-			Map.Entry pair = (Map.Entry) it.next();
-			g.setColor(Color.WHITE);
-			g.drawString((String)pair.getKey(), 
-						 g.getCurrentWidth() / 10 * 9 - c.getX(), 
-						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
-			g.drawString("                       " + (Integer)pair.getValue(), 
-						 g.getCurrentWidth() / 10 * 9 - c.getX(),				
-						 g.getCurrentWidth() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 			counter++;
+			Map.Entry pair = (Map.Entry) it.next();
+			g.drawString((String)pair.getKey(), 
+						 g.getCurrentWidth() / 10 - c.getX(), 
+						 g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
+			g.drawString("                       " + (Integer)pair.getValue(), 
+						 g.getCurrentWidth() / 10 - c.getX(),				
+						 g.getCurrentHeight() / 100 + counter * (g.getFont().getLineHeight() + 10) - c.getY());
 		}
 	}
 	

@@ -161,7 +161,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createBlankTile(){
@@ -185,7 +185,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createGrassTile(){
@@ -210,7 +210,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createGrassyMudTile(){
@@ -235,7 +235,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createDirtTile(){
@@ -260,7 +260,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createSandTile(){
@@ -285,7 +285,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	void createStoneTile(){
@@ -310,7 +310,7 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		
-		idle.addFrame(Utils.make(tr[spriteX][spriteY]), 1.0f);
+		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
 	public void draw(Graphics g){

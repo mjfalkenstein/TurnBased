@@ -8,11 +8,11 @@ import com.mystudio.entities.Character;
 
 public class Utils {
 
-	public static Sprite make(TextureRegion tr){
+	public static Sprite makeSprite(TextureRegion tr){
 		return new Sprite(tr.getTexture(), tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
 	}
 
-	public static Sprite make(TextureRegion tr, int i) { 
+	public static Sprite makeSprite(TextureRegion tr, int i) { 
 		return new Sprite(tr.getTexture(),tr.getRegionX(), i-tr.getRegionY(),tr.getRegionWidth(),tr.getRegionHeight()); 
 	}
 	
