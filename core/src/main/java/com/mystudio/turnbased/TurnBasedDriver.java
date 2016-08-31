@@ -23,7 +23,7 @@ public class TurnBasedDriver extends ScreenBasedGame {
 	public static     Stats DEFAULTSTATS   = new Stats();
 	public static StatGrowth DEFAULTGROWTH = new StatGrowth();
 	
-	Level0 level0 = new Level0(		-1, 10, 10);
+	Level0 level0 = new Level0(		-1);
 
 	@Override
 	public void initialise() {

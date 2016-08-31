@@ -29,7 +29,6 @@ public class Path {
 
 	public void draw(Graphics g, Tile playerTile, TileMap map){
 
-		//image = new Sprite(spriteSheet, 0, 3);
 		image = new Sprite(spriteSheet);
 		Sprite[][] sprite = (Sprite[][]) image.split(TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
 		image = sprite[0][3];
@@ -61,69 +60,54 @@ public class Path {
 			}
 			
 			if(left && right){
-				//image = sprite.getSprite(2, 0);
 				image = sprite[2][0];
 			}
 			if(left && top){
-				//image = sprite.getSprite(1, 1);
 				image = sprite[1][1];
 			}
 			if(left && bot){
-				//image = sprite.getSprite(1, 0);
 				image = sprite[1][0];
 			}
 			if(left && !bot && ! top && !right){
-				//image = sprite.getSprite(3, 2);
 				image = sprite[3][2];
 			}
 			
 			if(right && top){
-				//image = sprite.getSprite(0, 1);
 				image = sprite[0][1];
 			}
 			if(right && bot){
-				//image = sprite.getSprite(0, 0);
 				image = sprite[0][0];
 			}
 			if(right && !bot && !top && !left){
-				//image = sprite.getSprite(3, 1);
 				image = sprite[3][1];
 			}
 			
 			if(top && bot){
-				//image = sprite.getSprite(3, 0);
 				image = sprite[3][0];
 			}
 			if(top && !bot && !left && !right){
-				//image = sprite.getSprite(2, 2);
 				image = sprite[2][2];
 			}
 			if(bot && !top && !left && !right){
-				//image = sprite.getSprite(2, 1);
 				image = sprite[2][1];
 			}
 			
 			if(t.getX() == playerTile.getX() && t.getY() == playerTile.getY()){
 				if(left && !bot && ! top && !right){
-					//image = sprite.getSprite(1, 2);
 					image = sprite[1][2];
 				}
 				if(right && !bot && ! top && !left){
-					//image = sprite.getSprite(0, 2);
 					image = sprite[0][2];
 				}
 				if(top && !bot && !right && !left){
-					//image = sprite.getSprite(0, 3);
 					image = sprite[0][3];
 				}
 				if(bot && !top && !right && !left){
-					//image = sprite.getSprite(1, 3);
 					image = sprite[1][3];
 				}
 			}
 
 			g.setColor(Color.WHITE);
-			//image.draw(t.getX() * tileSize - (spriteSize - tileSize)/2, t.getY() * tileSize - (spriteSize - tileSize)/2);
 			g.drawSprite(image, t.getX() * TurnBasedDriver.TILESIZE, t.getY() * TurnBasedDriver.TILESIZE);
 		}
 	}

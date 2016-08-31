@@ -25,8 +25,8 @@ public class Level0 extends Level{
 	
 	Stats testCharacterStats, testEnemyStats;
 
-	public Level0(int ID, int width, int height) {
-		super(ID, width, height);
+	public Level0(int ID) {
+		super(ID, 20, 20);
 	}
 
 	@Override

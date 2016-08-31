@@ -17,7 +17,7 @@ public class Stats{
 	public Stats(int maxHealth, int strength, int intellect, 
 			     int accuracy, int agility, int atunement, 
 			     int humanity, int armor, int resistence, 
-			     int movement, int minRange, int maxRange) {
+			     int movement, int minRange, int maxRange){
 
 		statsTable.put("Health\t\t", maxHealth);
 		statsTable.put("Max Health\t", maxHealth);

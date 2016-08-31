@@ -111,4 +111,11 @@ public class TileMap {
 		return Math.abs(t1.getX() - t2.getX()) + 
 			   Math.abs(t1.getY() - t2.getY());
 	}
+
+	public Tile getWithNull(int x, int y){
+		if(x < 0 || x >= width || y < 0 || y >= height){
+			return null;
+		}
+		return tiles[x][y];
+	}
 }

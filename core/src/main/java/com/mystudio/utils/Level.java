@@ -38,6 +38,7 @@ public abstract class Level extends BasicGameScreen{
 	TreeSet<Tile> possibleMoves;
 	TreeSet<Tile> pathTiles;
 	Path pathHighlight;
+	Tile targetTile;
 
 	ArrayList<Tile> tilesInRange;
 
@@ -99,6 +100,7 @@ public abstract class Level extends BasicGameScreen{
 
 		map = new TileMap(width, height);
 		possibleMoves = new TreeSet<Tile>();
+		pathTiles = new TreeSet<Tile>();
 
 		tilesInRange = new ArrayList<Tile>();
 
@@ -283,21 +285,16 @@ public abstract class Level extends BasicGameScreen{
 				battleConfirmButton.show();
 				battleCancelButton.show();
 			}
-
-			possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), 
-					currentCharacter.getYTile(), 
-					currentCharacter.getStats().getMovement());
-			Tile targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, 
-					(mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
-			if(possibleMoves.contains(targetTile)){
-				//calculate and draw the path from player tile to targetTile
-			}
 		}else{
 			possibleMoves.clear();
 			tilesInRange.clear();
 		}
 		for(Button b : buttons){
 			b.render(g, camera);
+		}
+		
+		for(Tile t : pathTiles){
+			t.highlight(g);
 		}
 
 		g.translate(camera.getX(), camera.getY());
@@ -312,6 +309,7 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
+		pathTiles.clear();
 
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
@@ -328,6 +326,16 @@ public abstract class Level extends BasicGameScreen{
 
 			if(currentCharacter != null){
 				tilesInRange = currentCharacter.getTilesInRange(map);
+				
+				possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
+				targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
+				
+				if(possibleMoves.contains(targetTile)){
+					Tile currentCharacterTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
+					
+					pathTiles = currentCharacterTile.getPath(map, targetTile, possibleMoves);
+					//System.out.println("calcualted path with length: " + pathTiles.size());
+				}
 			}
 
 			camera.move(cameraX, cameraY);
@@ -341,17 +349,31 @@ public abstract class Level extends BasicGameScreen{
 			battlePredictionEnemy.show();
 		}
 		
-//		for(Character c : playerCharacters){
-//			if(!c.isAlive()){
-//				playerCharacters.remove(c);
-//			}
-//		}
-//		
-//		for(Character c : enemyCharacters){
-//			if(!c.isAlive()){
-//				enemyCharacters.remove(c);
-//			}
-//		}
+		Character dead = null;
+		
+		for(Character c : playerCharacters){
+			if(!c.isAlive()){
+				dead = c;
+			}
+		}
+		
+		if(dead != null){
+			playerCharacters.remove(dead);
+			worldEntities.remove(dead);
+			dead = null;
+		}
+		
+		for(Character c : enemyCharacters){
+			if(!c.isAlive()){
+				dead = c;
+			}
+		}
+		
+		if(dead != null){
+			enemyCharacters.remove(dead);
+			worldEntities.remove(dead);
+			dead = null;
+		}
 	}
 
 	/**
