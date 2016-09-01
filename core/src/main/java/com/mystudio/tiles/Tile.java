@@ -28,8 +28,9 @@ public class Tile implements Comparable<Tile>{
 	Animation<Sprite> idle;
 	Tile predecessor;
 
-	float movement, cover, protection, concealment, damage, flammability;
-
+	float cover, protection, concealment, damage, flammability;
+	int movement;
+	
 	public Tile(TileType type){
 		this.type = type;
 
@@ -142,7 +143,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createTestTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -166,7 +167,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createBlankTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -190,7 +191,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createGrassTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -219,7 +220,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createGrassyMudTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -247,7 +248,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createDirtTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -275,7 +276,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createSandTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -303,7 +304,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	void createStoneTile(){
-		movement = 1.0f;
+		movement = 1;
 		cover = 0.0f;
 		protection = 0.0f;
 		concealment = 0.0f;
@@ -333,7 +334,7 @@ public class Tile implements Comparable<Tile>{
 	public void draw(Graphics g, TileMap m){
 		idle.draw(g, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f, 
 				y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f);
-		Tile destination = m.get(9, 8);
+		//Tile destination = m.get(9, 8);
 		//g.drawString("" + this.hueristic(destination), x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
 		//g.drawString("" + shift, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
 	}
@@ -370,10 +371,10 @@ public class Tile implements Comparable<Tile>{
 		if(pathable && (shift <= distance)){
 			shift = distance;
 			output.add(this);
-			output.addAll(map.get(x + 1, y).getPossiblePath(map, distance - 1));
-			output.addAll(map.get(x - 1, y).getPossiblePath(map, distance - 1));
-			output.addAll(map.get(x, y + 1).getPossiblePath(map, distance - 1));
-			output.addAll(map.get(x, y - 1).getPossiblePath(map, distance - 1));
+			output.addAll(map.get(x + 1, y).getPossiblePath(map, distance - this.movement));
+			output.addAll(map.get(x - 1, y).getPossiblePath(map, distance - this.movement));
+			output.addAll(map.get(x, y + 1).getPossiblePath(map, distance - this.movement));
+			output.addAll(map.get(x, y - 1).getPossiblePath(map, distance - this.movement));
 		}
 		return output;
 	}
@@ -382,6 +383,10 @@ public class Tile implements Comparable<Tile>{
 		TreeSet<Tile> frontier = new TreeSet<Tile>();
 
 		frontier.add(this);
+		
+		for(Tile t : possible){
+			t.clear();
+		}
 
 		shift = 999999;
 
@@ -407,15 +412,8 @@ public class Tile implements Comparable<Tile>{
 
 	static private TreeSet<Tile> getPathRecur(TileMap map, TreeSet<Tile> frontier, Tile destination, int distance, TreeSet<Tile> possible){
 
-		if(!possible.contains(destination)){
-			return null;
-		}
-
 		TreeSet<Tile> output = new TreeSet<Tile>();
 
-		if(frontier.size() == 0){
-			return output;
-		}
 		Tile chosen = null;
 		double minDistance = Double.MAX_VALUE;
 

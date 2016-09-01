@@ -33,7 +33,7 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 0, 2);
+		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 9, 0, 2);
 		testEnemyStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 1, 3);
 		
 		testCharacter = new Character(6, 6, "test.jpg", testCharacterStats, TurnBasedDriver.DEFAULTGROWTH);
@@ -42,10 +42,10 @@ public class Level0 extends Level{
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){
 				map.set(new Tile(TileType.GRASS), i, j);
-				if((i == 3 && j > 2 && j < 7) || 
-				   (j == 8 && i > 2 && i < 7) ||
-				   (i == 8 && j > 2 && j < 7) ||
-				   (j == 4 && i > 2 && i < 7))
+				if((i == 3 && j > 2 && j < 8) || 
+				   (j == 8 && i > 2 && i < 8) ||
+				   (i == 8 && j > 2 && j < 8) ||
+				   (j == 3 && i > 2 && i < 6))
 					map.set(new Tile(TileType.BLANK), i, j);
 			}
 		}
