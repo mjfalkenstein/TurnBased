@@ -17,7 +17,7 @@ public class Utils {
 	}
 	
 	public static void doBattle(Character attacker, Character defender, boolean attackerDamageType, boolean defenderDamageType){
-		System.out.println("Simulating Battle\n\n");
+		//System.out.println("Simulating Battle\n\n");
 		Stats attackerStats = attacker.getStats();
 		Stats defenderStats = defender.getStats();
 
@@ -30,8 +30,8 @@ public class Utils {
 		
 		attacker.setAttacked(true);
 		
-		System.out.println("Attacker Stats:\n" + attackerStats);
-		System.out.println("Defender Stats:\n" + defenderStats);
+		//System.out.println("Attacker Stats:\n" + attackerStats);
+		//System.out.println("Defender Stats:\n" + defenderStats);
 	}
 	
 	private static void doHit(Stats attackerStats, Stats defenderStats, boolean attackerDamageType, boolean defenderDamageType){

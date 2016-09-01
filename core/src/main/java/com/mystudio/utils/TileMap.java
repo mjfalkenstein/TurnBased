@@ -6,6 +6,7 @@ import java.lang.Math;
 
 import org.mini2Dx.core.graphics.Graphics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.mystudio.enums.TileType;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
@@ -58,7 +59,7 @@ public class TileMap {
 	public void draw(Graphics g){
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
-				tiles[i][j].draw(g);
+				tiles[i][j].draw(g, this);
 			}
 		}
 	}
@@ -73,7 +74,7 @@ public class TileMap {
 	
 	public void highlightTile(int x, int y, Graphics g){
 		Tile tile = get(x / TurnBasedDriver.TILESIZE, y / TurnBasedDriver.TILESIZE);
-		tile.highlight(g);
+		tile.highlight(g, Color.WHITE);
 	}
 	
 	public Tile[][] getTiles(){

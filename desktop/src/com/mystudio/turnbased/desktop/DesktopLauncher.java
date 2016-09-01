@@ -23,7 +23,7 @@ public class DesktopLauncher {
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 0;
 		config.resizable = false;
-		config.fullscreen = true;
+		config.fullscreen = false;
 		config.vSyncEnabled = true;
 		config.title = "Turn Based Game";
 		config.initialBackgroundColor = Color.GRAY;

@@ -26,6 +26,7 @@ public class Tile implements Comparable<Tile>{
 	int shift = 0;
 	boolean highlight = false;
 	Animation<Sprite> idle;
+	Tile predecessor;
 
 	float movement, cover, protection, concealment, damage, flammability;
 
@@ -313,14 +314,15 @@ public class Tile implements Comparable<Tile>{
 		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
 	}
 
-	public void draw(Graphics g){
+	public void draw(Graphics g, TileMap m){
 		idle.draw(g, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f, 
 				y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f);
-		g.drawString("" + shift, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
+		Tile destination = m.get(9, 8);
+		g.drawString("" + this.hueristic(destination), x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
+		//g.drawString("" + shift, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
 	}
 
-	public void highlight(Graphics g){
-		Color c = Color.WHITE;
+	public void highlight(Graphics g, Color c){
 		c.a = 0.5f;
 		g.setColor(c);
 		g.fillRect(x * TurnBasedDriver.TILESIZE, y * TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
@@ -347,6 +349,7 @@ public class Tile implements Comparable<Tile>{
 	}
 
 	public TreeSet<Tile> getPossiblePath(TileMap map, int distance){
+		clear();
 		TreeSet<Tile> output = new TreeSet<Tile>();
 		if(pathable && (shift <= distance)){
 			shift = distance;
@@ -356,7 +359,6 @@ public class Tile implements Comparable<Tile>{
 			output.addAll(map.get(x, y + 1).getPossiblePath(map, distance - 1));
 			output.addAll(map.get(x, y - 1).getPossiblePath(map, distance - 1));
 		}
-		shift = 0;
 		return output;
 	}
 
@@ -364,13 +366,27 @@ public class Tile implements Comparable<Tile>{
 		TreeSet<Tile> frontier = new TreeSet<Tile>();
 
 		frontier.add(this);
-		clear();
 
-		for(Tile t : possible){
-			t.clear();
+		shift = 999999;
+
+		getPathRecur(map, frontier, destination, 1, possible);
+		
+		return getBackTrace(map, destination, this);
+	}
+	
+	static private TreeSet<Tile> getBackTrace(TileMap map, Tile destination, Tile origin){
+		TreeSet<Tile> output = new TreeSet<Tile>();
+		
+		Tile current = destination;
+		
+		while(current.predecessor != null && current.predecessor != origin){
+			output.add(current);
+			current = current.predecessor;
 		}
-
-		return getPathRecur(map, frontier, destination, 01, possible);
+		
+		output.add(origin);
+		output.add(current);
+		return output;
 	}
 
 	static private TreeSet<Tile> getPathRecur(TileMap map, TreeSet<Tile> frontier, Tile destination, int distance, TreeSet<Tile> possible){
@@ -384,9 +400,8 @@ public class Tile implements Comparable<Tile>{
 		if(frontier.size() == 0){
 			return output;
 		}
-
-		Tile chosen = (Tile) frontier.toArray()[0];
-		double minDistance = chosen.hueristic(destination);
+		Tile chosen = null;
+		double minDistance = Double.MAX_VALUE;
 
 		for(Tile t : frontier){
 			if(t.hueristic(destination) < minDistance){
@@ -396,32 +411,41 @@ public class Tile implements Comparable<Tile>{
 		}
 
 		frontier.remove(chosen);
-		chosen.shift = distance;
 		output.add(chosen);
-		
-		if(chosen.getDistance(destination) == 0){
+
+		Tile lf = map.getWithNull(chosen.x - 1, chosen.y);
+		Tile rt = map.getWithNull(chosen.x + 1, chosen.y);
+		Tile up = map.getWithNull(chosen.x, chosen.y - 1);
+		Tile dn = map.getWithNull(chosen.x, chosen.y + 1);
+
+		if(up != null && up.shift == 0 && possible.contains(up)){
+			up.shift = distance;
+			up.predecessor = chosen;
+			frontier.add(up);
+		}
+		if(dn != null && dn.shift == 0 && possible.contains(dn)){
+			dn.shift = distance;
+			dn.predecessor = chosen;
+			frontier.add(dn);
+		}
+		if(lf != null && lf.shift == 0 && possible.contains(lf)){
+			lf.shift = distance;
+			lf.predecessor = chosen;
+			frontier.add(lf);
+		}
+		if(rt != null && rt.shift == 0 && possible.contains(rt)){
+			rt.shift = distance;
+			rt.predecessor = chosen;
+			frontier.add(rt);
+		}
+
+		if(chosen.equals(destination)){
 			output.add(destination);
 			return output;
-		} else {
-			Tile lf = map.getWithNull(chosen.x - 1, chosen.y);
-			Tile rt = map.getWithNull(chosen.x + 1, chosen.y);
-			Tile up = map.getWithNull(chosen.x, chosen.y - 1);
-			Tile dn = map.getWithNull(chosen.x, chosen.y + 1);
-
-			if(up != null && up.shift == 0 && possible.contains(up)){
-				frontier.add(up);
-			}
-			if(dn != null && dn.shift == 0 && possible.contains(dn)){
-				frontier.add(dn);
-			}
-			if(lf != null && lf.shift == 0 && possible.contains(lf)){
-				frontier.add(lf);
-			}
-			if(rt != null && rt.shift == 0 && possible.contains(rt)){
-				frontier.add(rt);
-			}
+		}else{
 			output.addAll(getPathRecur(map, frontier, destination, distance+1, possible));
 		}
+
 		return output;
 	}
 
@@ -430,8 +454,7 @@ public class Tile implements Comparable<Tile>{
 		return Math.sqrt((tile.x - x) * (tile.x - x) + (tile.y - y) * (tile.y - y));
 	}
 
-	public double hueristic(Tile tile){
-		//return shift + Math.sqrt((tile.x - x) * (tile.x - x) + (tile.y - y) * (tile.y - y));    
+	public double hueristic(Tile tile){   
 		int dx = tile.getX() - x;
 		int dy = tile.getY() - y;
 		return shift + Math.sqrt((dx*dx)+(dy*dy));

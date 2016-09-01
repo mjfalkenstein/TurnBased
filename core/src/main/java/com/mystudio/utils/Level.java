@@ -61,6 +61,8 @@ public abstract class Level extends BasicGameScreen{
 	
 	BattlePrediction battlePredictionPlayer;
 	BattlePrediction battlePredictionEnemy;
+	
+	public static TreeSet<Tile> frontier;
 
 	/**
 	 * Constructor
@@ -101,6 +103,7 @@ public abstract class Level extends BasicGameScreen{
 		map = new TileMap(width, height);
 		possibleMoves = new TreeSet<Tile>();
 		pathTiles = new TreeSet<Tile>();
+		frontier = new TreeSet<Tile>();
 
 		tilesInRange = new ArrayList<Tile>();
 
@@ -246,25 +249,25 @@ public abstract class Level extends BasicGameScreen{
 
 		map.draw(g);
 
-		for(Entity e : worldEntities){
-			e.render(g, camera);
-		}	
+//		for(Entity e : worldEntities){
+//			e.render(g, camera);
+//		}	
 
 		for(Tile t : possibleMoves){
-			t.highlight(g);
+			t.highlight(g, Color.BLUE);
 		}
 
-		for(Tile t : tilesInRange){
-			t.highlight(g);
-		}
-
-		for(Character c : playerCharacters){
-			c.render(g, camera);
-		}
-
-		for(Character c : enemyCharacters){
-			c.render(g, camera);
-		}
+//		for(Tile t : tilesInRange){
+//			t.highlight(g);
+//		}
+//
+//		for(Character c : playerCharacters){
+//			c.render(g, camera);
+//		}
+//
+//		for(Character c : enemyCharacters){
+//			c.render(g, camera);
+//		}
 
 		if(!pause) map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 
@@ -292,9 +295,14 @@ public abstract class Level extends BasicGameScreen{
 		for(Button b : buttons){
 			b.render(g, camera);
 		}
+
+		for(Tile t : frontier){
+			t.highlight(g, Color.RED);
+		}
 		
+		//System.out.println(pathTiles.size());
 		for(Tile t : pathTiles){
-			t.highlight(g);
+			t.highlight(g, Color.WHITE);
 		}
 
 		g.translate(camera.getX(), camera.getY());
@@ -309,7 +317,7 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
-		pathTiles.clear();
+		//pathTiles.clear();
 
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
