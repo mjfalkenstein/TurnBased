@@ -249,25 +249,17 @@ public abstract class Level extends BasicGameScreen{
 
 		map.draw(g);
 
-//		for(Entity e : worldEntities){
-//			e.render(g, camera);
-//		}	
+		for(Entity e : worldEntities){
+			e.render(g, camera);
+		}	
 
 		for(Tile t : possibleMoves){
 			t.highlight(g, Color.BLUE);
 		}
 
-//		for(Tile t : tilesInRange){
-//			t.highlight(g);
-//		}
-//
-//		for(Character c : playerCharacters){
-//			c.render(g, camera);
-//		}
-//
-//		for(Character c : enemyCharacters){
-//			c.render(g, camera);
-//		}
+		for(Tile t : tilesInRange){
+			t.highlight(g, Color.RED);
+		}
 
 		if(!pause) map.highlightTile(mouseX - camera.getX(), mouseY - camera.getY(), g);
 
@@ -300,7 +292,6 @@ public abstract class Level extends BasicGameScreen{
 			t.highlight(g, Color.RED);
 		}
 		
-		//System.out.println(pathTiles.size());
 		for(Tile t : pathTiles){
 			t.highlight(g, Color.WHITE);
 		}
@@ -317,7 +308,6 @@ public abstract class Level extends BasicGameScreen{
 	 */
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta) {
-		//pathTiles.clear();
 
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();

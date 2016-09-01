@@ -206,12 +206,16 @@ public class Tile implements Comparable<Tile>{
 		} catch(Exception e){
 			spriteSheet = new Texture(Gdx.files.internal("data/blankTexture.png"));
 		}
+		
 		TextureRegion tre = new TextureRegion();
 		tre.setTexture(spriteSheet);
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 
-		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
+		Sprite spr = Utils.makeSprite(tr[spriteX][spriteY]);
+		spr.flip(r.nextBoolean(), r.nextBoolean());
+		
+		idle.addFrame(spr, 1.0f);
 	}
 
 	void createGrassyMudTile(){
@@ -236,7 +240,10 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 
-		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
+		Sprite spr = Utils.makeSprite(tr[spriteX][spriteY]);
+		spr.flip(r.nextBoolean(), r.nextBoolean());
+		
+		idle.addFrame(spr, 1.0f);
 	}
 
 	void createDirtTile(){
@@ -261,7 +268,10 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 
-		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
+		Sprite spr = Utils.makeSprite(tr[spriteX][spriteY]);
+		spr.flip(r.nextBoolean(), r.nextBoolean());
+		
+		idle.addFrame(spr, 1.0f);
 	}
 
 	void createSandTile(){
@@ -286,7 +296,10 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 
-		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
+		Sprite spr = Utils.makeSprite(tr[spriteX][spriteY]);
+		spr.flip(r.nextBoolean(), r.nextBoolean());
+		
+		idle.addFrame(spr, 1.0f);
 	}
 
 	void createStoneTile(){
@@ -311,14 +324,17 @@ public class Tile implements Comparable<Tile>{
 		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
 
-		idle.addFrame(Utils.makeSprite(tr[spriteX][spriteY]), 1.0f);
+		Sprite spr = Utils.makeSprite(tr[spriteX][spriteY]);
+		spr.flip(r.nextBoolean(), r.nextBoolean());
+		
+		idle.addFrame(spr, 1.0f);
 	}
 
 	public void draw(Graphics g, TileMap m){
 		idle.draw(g, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f, 
 				y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f);
 		Tile destination = m.get(9, 8);
-		g.drawString("" + this.hueristic(destination), x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
+		//g.drawString("" + this.hueristic(destination), x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
 		//g.drawString("" + shift, x * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getWidth() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f, y * TurnBasedDriver.TILESIZE - (idle.getCurrentFrame().getHeight() - TurnBasedDriver.TILESIZE) * 0.5f + TurnBasedDriver.TILESIZE * 0.5f);
 	}
 
