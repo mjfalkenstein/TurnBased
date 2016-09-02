@@ -76,10 +76,6 @@ public class Character extends Entity{
 		return output;
 	}
 	
-	public void setAttacked(boolean attacked){
-		hasAttacked = attacked;
-	}
-	
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -88,7 +84,7 @@ public class Character extends Entity{
 		this.isAlive = isAlive;
 	}
 
-	public boolean isHasMoved() {
+	public boolean getHasMoved() {
 		return hasMoved;
 	}
 
@@ -96,7 +92,7 @@ public class Character extends Entity{
 		this.hasMoved = hasMoved;
 	}
 
-	public boolean isHasAttacked() {
+	public boolean getHasAttacked() {
 		return hasAttacked;
 	}
 

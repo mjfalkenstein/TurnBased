@@ -1,8 +1,10 @@
 package com.mystudio.utils;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.mini2Dx.core.graphics.Sprite;
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mystudio.entities.Character;
 
@@ -18,6 +20,7 @@ public class Utils {
 	
 	public static void doBattle(Character attacker, Character defender, boolean attackerDamageType, boolean defenderDamageType){
 		//System.out.println("Simulating Battle\n\n");
+		
 		Stats attackerStats = attacker.getStats();
 		Stats defenderStats = defender.getStats();
 
@@ -28,7 +31,8 @@ public class Utils {
 			doHit(attackerStats, defenderStats, attackerDamageType, defenderDamageType);
 		}
 		
-		attacker.setAttacked(true);
+		attacker.setHasAttacked(true);
+		attacker.setHasMoved(true);
 		
 		//System.out.println("Attacker Stats:\n" + attackerStats);
 		//System.out.println("Defender Stats:\n" + defenderStats);
@@ -85,5 +89,14 @@ public class Utils {
 		}else{
 			System.out.println("Miss!");
 		}
+	}
+	
+	public static void takeEnemyTurn(TileMap map, ArrayList<Character> enemies, ArrayList<Character> players){
+		System.out.println("Taking enemy turn");
+		
+		for(Character c : enemies){
+			c.setHasMoved(true);
+		}
+		System.out.println("Ending enemy turn");
 	}
 }

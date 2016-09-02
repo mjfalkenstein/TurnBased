@@ -58,8 +58,9 @@ public abstract class Level extends BasicGameScreen{
 	Button battleCancelButton;
 
 	boolean inBattle;
+	boolean isPlayersTurn = true;
 	boolean pause = false;
-	
+
 	BattlePrediction battlePredictionPlayer;
 	BattlePrediction battlePredictionEnemy;
 
@@ -120,7 +121,7 @@ public abstract class Level extends BasicGameScreen{
 		buttons.add(battleCancelButton);
 
 		inBattle = false;
-		
+
 		battlePredictionPlayer = new BattlePrediction(null, null, true, true);
 		battlePredictionEnemy = new BattlePrediction(null, null, true, true);
 
@@ -148,59 +149,61 @@ public abstract class Level extends BasicGameScreen{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				if(button == Input.Buttons.LEFT){
-					mouseX = Gdx.input.getX();
-					mouseY = Gdx.input.getY();
-					Entity clickTarget;
+				if(isPlayersTurn){
+					if(button == Input.Buttons.LEFT){
+						mouseX = Gdx.input.getX();
+						mouseY = Gdx.input.getY();
+						Entity clickTarget;
 
-					if(!pause){
-						try {
-							clickTarget = clickedEntity(mouseX, mouseY);
-						}
-						catch(Exception e) {
-							currentCharacter = null;
-							currentCharacterIndex = -1;
-							return false;
-						}
-						if(playerCharacters.contains(clickTarget)) {
-							currentCharacter = (Character) clickTarget;
-							currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
-						}else if(enemyCharacters.contains(clickTarget)){
-							targetCharacter = (Character) clickTarget;
-							currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
-							if(currentCharacter != null){
-								Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
-								if(currentCharacter.getTilesInRange(map).contains(t)){
-									inBattle = true;
-								}
+						if(!pause){
+							try {
+								clickTarget = clickedEntity(mouseX, mouseY);
 							}
-						}else{
-							currentCharacter = null;
-							targetCharacter = null;
-							inBattle = false;
-							currentCharacterIndex = -1;
+							catch(Exception e) {
+								currentCharacter = null;
+								currentCharacterIndex = -1;
+								return false;
+							}
+							if(playerCharacters.contains(clickTarget)) {
+								currentCharacter = (Character) clickTarget;
+								currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
+							}else if(enemyCharacters.contains(clickTarget)){
+								targetCharacter = (Character) clickTarget;
+								currentCharacterIndex = enemyCharacters.indexOf(targetCharacter);
+								if(currentCharacter != null){
+									Tile t = map.get(targetCharacter.getXTile(), targetCharacter.getYTile());
+									if(currentCharacter.getTilesInRange(map).contains(t)){
+										inBattle = true;
+									}
+								}
+							}else{
+								currentCharacter = null;
+								targetCharacter = null;
+								inBattle = false;
+								currentCharacterIndex = -1;
+							}
+						}else if(inBattle){
+							if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
+								Utils.doBattle(currentCharacter, targetCharacter, true, true);
+								pause = false;
+								targetCharacter = null;
+								battlePredictionPlayer.hide();
+								battlePredictionEnemy.hide();
+								inBattle = false;
+								battleConfirmButton.hide();
+								battleCancelButton.hide();
+							}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
+								pause = false;
+								targetCharacter = null;
+								battlePredictionPlayer.hide();
+								battlePredictionEnemy.hide();
+								inBattle = false;
+								battleConfirmButton.hide();
+								battleCancelButton.hide();
+							}
 						}
-					}else if(inBattle){
-						if(battleConfirmButton.mouseoverQ(mouseX, mouseY)){
-							Utils.doBattle(currentCharacter, targetCharacter, true, true);
-							pause = false;
-							targetCharacter = null;
-							battlePredictionPlayer.hide();
-							battlePredictionEnemy.hide();
-							inBattle = false;
-							battleConfirmButton.hide();
-							battleCancelButton.hide();
-						}else if(battleCancelButton.mouseoverQ(mouseX, mouseY)){
-							pause = false;
-							targetCharacter = null;
-							battlePredictionPlayer.hide();
-							battlePredictionEnemy.hide();
-							inBattle = false;
-							battleConfirmButton.hide();
-							battleCancelButton.hide();
-						}
+						return true;
 					}
-					return true;
 				}
 				return false;
 			}
@@ -286,12 +289,12 @@ public abstract class Level extends BasicGameScreen{
 		for(Button b : buttons){
 			b.render(g, camera);
 		}
-		
+
 		for(Tile t : pathTiles){
 			t.highlight(g, Color.WHITE);
 		}
-		
-//		pathHighlight.draw(g, playerTile, map);
+
+		//		pathHighlight.draw(g, playerTile, map);
 
 		g.translate(camera.getX(), camera.getY());
 	}
@@ -308,67 +311,92 @@ public abstract class Level extends BasicGameScreen{
 
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.input.getY();
-
-		if(!pause){
-			for(Entity e : worldEntities){
-				e.update(delta, camera);
-			}
-
-			if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
-			if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
-			if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
-			if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
-
-			if(currentCharacter != null){
-				tilesInRange = currentCharacter.getTilesInRange(map);
-				
-				playerTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
-				
-				possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
-				targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
-				
-				if(possibleMoves.contains(targetTile) && oldTargetTile != null && !oldTargetTile.equals(targetTile)){
-					
-					Tile currentCharacterTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
-					
-					pathTiles = currentCharacterTile.getPath(map, targetTile, possibleMoves);
-					pathHighlight = new Path(pathTiles);
+		
+		if(isPlayersTurn){
+			isPlayersTurn = false;
+			for(Character c : playerCharacters){
+				if(!c.getHasMoved()){
+					isPlayersTurn = true;
 				}
-				
-				oldTargetTile = targetTile;
+			}
+		}else{
+			isPlayersTurn = true;
+			for(Character c : enemyCharacters){
+				if(!c.getHasMoved()){
+					isPlayersTurn = false;
+				}
+			}
+		}
+
+		if(isPlayersTurn){
+			if(!pause){
+				for(Entity e : worldEntities){
+					e.update(delta, camera);
+				}
+
+				if(mouseX <= 10) 				  cameraX += TurnBasedDriver.CAMERA_SPEED;
+				if(mouseX >= gc.getWidth() - 10)  cameraX -= TurnBasedDriver.CAMERA_SPEED;
+				if(mouseY <= 10) 				  cameraY += TurnBasedDriver.CAMERA_SPEED;
+				if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
+
+				if(currentCharacter != null){
+					tilesInRange = currentCharacter.getTilesInRange(map);
+
+					playerTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
+
+					possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
+					targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
+
+					if(possibleMoves.contains(targetTile) && oldTargetTile != null && !oldTargetTile.equals(targetTile)){
+
+						Tile currentCharacterTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
+
+						pathTiles = currentCharacterTile.getPath(map, targetTile, possibleMoves);
+						pathHighlight = new Path(pathTiles);
+					}
+
+					oldTargetTile = targetTile;
+				}
+
+				camera.move(cameraX, cameraY);
 			}
 
-			camera.move(cameraX, cameraY);
+			battlePredictionPlayer = new BattlePrediction(currentCharacter, targetCharacter, true, true);
+			battlePredictionEnemy = new BattlePrediction(targetCharacter, currentCharacter, true, true);
+
+			if(inBattle){
+				battlePredictionPlayer.show();
+				battlePredictionEnemy.show();
+			}
+		}else{
+			Utils.takeEnemyTurn(map, enemyCharacters, playerCharacters);
+			for(Character c : playerCharacters){
+				c.setHasAttacked(false);
+				c.setHasMoved(false);
+			}
+			isPlayersTurn = true;
 		}
 
-		battlePredictionPlayer = new BattlePrediction(currentCharacter, targetCharacter, true, true);
-		battlePredictionEnemy = new BattlePrediction(targetCharacter, currentCharacter, true, true);
-		
-		if(inBattle){
-			battlePredictionPlayer.show();
-			battlePredictionEnemy.show();
-		}
-		
 		Character dead = null;
-		
+
 		for(Character c : playerCharacters){
 			if(!c.isAlive()){
 				dead = c;
 			}
 		}
-		
+
 		if(dead != null){
 			playerCharacters.remove(dead);
 			worldEntities.remove(dead);
 			dead = null;
 		}
-		
+
 		for(Character c : enemyCharacters){
 			if(!c.isAlive()){
 				dead = c;
 			}
 		}
-		
+
 		if(dead != null){
 			enemyCharacters.remove(dead);
 			worldEntities.remove(dead);
