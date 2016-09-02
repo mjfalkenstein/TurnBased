@@ -38,7 +38,8 @@ public abstract class Level extends BasicGameScreen{
 	TreeSet<Tile> possibleMoves;
 	TreeSet<Tile> pathTiles;
 	Path pathHighlight;
-	Tile targetTile;
+	Tile targetTile, oldTargetTile;
+	Tile playerTile;
 
 	ArrayList<Tile> tilesInRange;
 
@@ -61,8 +62,6 @@ public abstract class Level extends BasicGameScreen{
 	
 	BattlePrediction battlePredictionPlayer;
 	BattlePrediction battlePredictionEnemy;
-	
-	public static TreeSet<Tile> frontier;
 
 	/**
 	 * Constructor
@@ -103,7 +102,7 @@ public abstract class Level extends BasicGameScreen{
 		map = new TileMap(width, height);
 		possibleMoves = new TreeSet<Tile>();
 		pathTiles = new TreeSet<Tile>();
-		frontier = new TreeSet<Tile>();
+		pathHighlight = new Path(pathTiles);
 
 		tilesInRange = new ArrayList<Tile>();
 
@@ -287,14 +286,12 @@ public abstract class Level extends BasicGameScreen{
 		for(Button b : buttons){
 			b.render(g, camera);
 		}
-
-		for(Tile t : frontier){
-			t.highlight(g, Color.RED);
-		}
 		
 		for(Tile t : pathTiles){
 			t.highlight(g, Color.WHITE);
 		}
+		
+//		pathHighlight.draw(g, playerTile, map);
 
 		g.translate(camera.getX(), camera.getY());
 	}
@@ -325,15 +322,20 @@ public abstract class Level extends BasicGameScreen{
 			if(currentCharacter != null){
 				tilesInRange = currentCharacter.getTilesInRange(map);
 				
+				playerTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
+				
 				possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
 				targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
 				
-				if(possibleMoves.contains(targetTile)){
+				if(possibleMoves.contains(targetTile) && oldTargetTile != null && !oldTargetTile.equals(targetTile)){
+					
 					Tile currentCharacterTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
 					
 					pathTiles = currentCharacterTile.getPath(map, targetTile, possibleMoves);
-					//System.out.println("calcualted path with length: " + pathTiles.size());
+					pathHighlight = new Path(pathTiles);
 				}
+				
+				oldTargetTile = targetTile;
 			}
 
 			camera.move(cameraX, cameraY);
