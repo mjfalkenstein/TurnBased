@@ -31,6 +31,14 @@ public class Utils {
 			doHit(attackerStats, defenderStats, attackerDamageType, defenderDamageType);
 		}
 		
+		if(attacker.getStats().getCurrentHealth()  <= 0){
+			attacker.setAlive(false);
+		}
+		
+		if(defender.getStats().getCurrentHealth()  <= 0){
+			defender.setAlive(false);
+		}
+		
 		attacker.setHasAttacked(true);
 		attacker.setHasMoved(true);
 		

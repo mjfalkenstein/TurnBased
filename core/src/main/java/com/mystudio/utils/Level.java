@@ -177,6 +177,7 @@ public abstract class Level extends BasicGameScreen{
 									}
 								}
 							}else{
+								pathTiles.clear();
 								currentCharacter = null;
 								targetCharacter = null;
 								inBattle = false;
@@ -203,6 +204,12 @@ public abstract class Level extends BasicGameScreen{
 							}
 						}
 						return true;
+					} else if(button == Input.Buttons.RIGHT){
+						pathTiles.clear();
+						currentCharacter = null;
+						targetCharacter = null;
+						inBattle = false;
+						currentCharacterIndex = -1;
 					}
 				}
 				return false;
@@ -317,13 +324,6 @@ public abstract class Level extends BasicGameScreen{
 			for(Character c : playerCharacters){
 				if(!c.getHasMoved()){
 					isPlayersTurn = true;
-				}
-			}
-		}else{
-			isPlayersTurn = true;
-			for(Character c : enemyCharacters){
-				if(!c.getHasMoved()){
-					isPlayersTurn = false;
 				}
 			}
 		}
