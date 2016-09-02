@@ -8,9 +8,11 @@
 package com.mystudio.entities;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.mini2Dx.core.graphics.Graphics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
 import com.mystudio.utils.Camera;
@@ -66,12 +68,16 @@ public class Character extends Entity{
 		return stats;
 	}
 	
-	public ArrayList<Tile> getTilesInRange(TileMap m){
-		ArrayList<Tile> output = new ArrayList<Tile>();
+	public TreeSet<Tile> getTilesInRange(TileMap m){
+		TreeSet<Tile> output = new TreeSet<Tile>();
 		
 		Tile startTile = m.get(xTile, yTile);
-		output.addAll(startTile.getPossiblePath(m, stats.getMaxRange()));
-		output.removeAll(startTile.getPossiblePath(m, stats.getMinRange()));
+		
+		for(Tile t : startTile.getPossiblePath(m, stats.getMovement())){
+			output.addAll(t.getPossiblePath(m, stats.getMaxRange()));
+		}
+		
+		output.removeAll(startTile.getPossiblePath(m, stats.getMovement()));
 		
 		return output;
 	}
