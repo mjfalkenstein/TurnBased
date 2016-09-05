@@ -25,6 +25,7 @@ public class Tile implements Comparable<Tile>{
 	boolean pathable;
 	int shift = 0;
 	boolean highlight = false;
+	boolean occupied = false;
 	Animation<Sprite> idle;
 	Tile predecessor;
 
@@ -497,5 +498,17 @@ public class Tile implements Comparable<Tile>{
 
 	public TileType getType(){
 		return type;
+	}
+	
+	public void setOccupied(boolean occupied){
+		this.occupied = occupied;
+	}
+	
+	public boolean isOccupied(){
+		return occupied;
+	}
+	
+	public void setPathable(boolean pathable){
+		this.pathable = pathable;
 	}
 }

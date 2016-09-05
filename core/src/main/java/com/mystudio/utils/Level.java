@@ -277,6 +277,7 @@ public abstract class Level extends BasicGameScreen{
 				if(mouseY >= gc.getHeight() - 10) cameraY -= TurnBasedDriver.CAMERA_SPEED;
 
 				if(currentCharacter != null){
+					
 					targetTile = map.get((mouseX - camera.getX()) / TurnBasedDriver.TILESIZE, (mouseY - camera.getY()) / TurnBasedDriver.TILESIZE);
 
 					if(possibleMoves.contains(targetTile) && oldTargetTile != null && !oldTargetTile.equals(targetTile)){
@@ -397,6 +398,8 @@ public abstract class Level extends BasicGameScreen{
 	public boolean handleMouseOnRelease(int screenX, int screenY, int pointer, int button){
 
 		if(isPlayersTurn){
+			possibleMoves.clear();
+			
 			if(button == Input.Buttons.LEFT){
 				mouseX = Gdx.input.getX();
 				mouseY = Gdx.input.getY();
@@ -416,11 +419,19 @@ public abstract class Level extends BasicGameScreen{
 						currentCharacterIndex = playerCharacters.indexOf(currentCharacter);
 						
 						if(currentCharacter != null){
+							for(Tile[] t1 : map.getTiles()){
+								for(Tile t : t1){
+									if(enemyCharacters.contains(map.getCharacter(t, enemyCharacters))){
+										t.setPathable(false);
+									}
+								}
+							}							
+							possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
+
 							tilesInRange = currentCharacter.getTilesInRange(map);
 
 							playerTile = map.get(currentCharacter.getXTile(), currentCharacter.getYTile());
 
-							possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
 						}
 					}else if(enemyCharacters.contains(clickTarget)){
 						targetCharacter = (Character) clickTarget;

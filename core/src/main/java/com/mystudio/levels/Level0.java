@@ -21,7 +21,7 @@ import com.mystudio.utils.StatGrowth;
 
 public class Level0 extends Level{
 	
-	Character testCharacter, testEnemy;
+	Character testCharacter, testEnemy1, testEnemy2, testEnemy3;
 	
 	Stats testCharacterStats, testEnemyStats;
 
@@ -33,11 +33,13 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 12, 0, 1);
+		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 10, 0, 1);
 		testEnemyStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 1, 3);
 		
 		testCharacter = new Character(6, 6, "test.jpg", testCharacterStats, TurnBasedDriver.DEFAULTGROWTH);
-		testEnemy     = new Character(6, 5, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy1    = new Character(6, 5, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy2    = new Character(6, 3, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy3    = new Character(7, 3, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
 		
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){
@@ -51,7 +53,9 @@ public class Level0 extends Level{
 		}
 		
 		addPlayerCharacter(testCharacter);
-		addEnemyCharacter(testEnemy);
+		addEnemyCharacter(testEnemy1);
+		addEnemyCharacter(testEnemy2);
+		addEnemyCharacter(testEnemy3);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.mystudio.enums.TileType;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
+import com.mystudio.entities.Character;
 
 public class TileMap {
 	
@@ -99,6 +100,19 @@ public class TileMap {
 	
 	public int maxY(){
 		return height * TurnBasedDriver.TILESIZE;
+	}
+	
+	public Character getCharacter(Tile t, ArrayList<Character> characters){
+		return getCharacter(t.getX(), t.getY(), characters);
+	}
+	
+	public Character getCharacter(int x, int y, ArrayList<Character> characters){
+		for(Character c : characters){
+			if(c.getXTile() == x && c.getYTile() == y){
+				return c;
+			}
+		}
+		return null;
 	}
 	
 	/**
