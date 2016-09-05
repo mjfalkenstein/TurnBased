@@ -1,10 +1,8 @@
 package com.mystudio.utils;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -19,19 +17,19 @@ public class Stats{
 			     int humanity, int armor, int resistence, 
 			     int movement, int minRange, int maxRange){
 
-		statsTable.put("Health\t\t", maxHealth);
-		statsTable.put("Max Health\t", maxHealth);
-		statsTable.put("Strength\t", strength);
-		statsTable.put("Intellect\t", intellect);
-		statsTable.put("Accuracy\t", accuracy);
-		statsTable.put("Agility\t\t", agility);
-		statsTable.put("Atunement\t", atunement);
-		statsTable.put("Humanity\t", humanity);
-		statsTable.put("Armor\t\t", armor);
-		statsTable.put("Resistence\t", resistence);
-		statsTable.put("Movement\t", movement);
-		statsTable.put("Min Range\t", minRange);
-		statsTable.put("Max Range\t", maxRange);
+		statsTable.put("Health", maxHealth);
+		statsTable.put("Max Health", maxHealth);
+		statsTable.put("Strength", strength);
+		statsTable.put("Intellect", intellect);
+		statsTable.put("Accuracy", accuracy);
+		statsTable.put("Agility", agility);
+		statsTable.put("Atunement", atunement);
+		statsTable.put("Humanity", humanity);
+		statsTable.put("Armor", armor);
+		statsTable.put("Resistence", resistence);
+		statsTable.put("Movement", movement);
+		statsTable.put("Min Range", minRange);
+		statsTable.put("Max Range", maxRange);
 	}
 	
 	public Stats() {
@@ -85,106 +83,106 @@ public class Stats{
 	}
 
 	public int getCurrentHealth() {
-		return statsTable.get("Health\t\t");
+		return statsTable.get("Health");
 	}
 
 	public void setCurrentHealth(int health) {
-		statsTable.put("Health\t\t", health);
+		statsTable.put("Health", health);
 	}
 	
 	public int getMaxHealth(){
-		return statsTable.get("Max Health\t");
+		return statsTable.get("Max Health");
 	}
 	
 	public void setMaxHealth(int maxHealth){
-		statsTable.put("Max Health/t", maxHealth);
+		statsTable.put("Max Health", maxHealth);
 	}
 
 	public int getStrength() {
-		return statsTable.get("Strength\t");
+		return statsTable.get("Strength");
 	}
 
 	public void setStrength(int strength) {
-		statsTable.put("Strength\t", strength);
+		statsTable.put("Strength", strength);
 	}
 
 	public int getIntellect() {
-		return statsTable.get("Intellect\t");
+		return statsTable.get("Intellect");
 	}
 
 	public void setIntellect(int intellect) {
-		statsTable.put("Intellect\t", intellect);
+		statsTable.put("Intellect", intellect);
 	}
 
 	public int getAccuracy() {
-		return statsTable.get("Accuracy\t");
+		return statsTable.get("Accuracy");
 	}
 
 	public void setAccuracy(int accuracy) {
-		statsTable.put("Accuracy\t", accuracy);
+		statsTable.put("Accuracy", accuracy);
 	}
 
 	public int getAgility() {
-		return statsTable.get("Agility\t\t");
+		return statsTable.get("Agility");
 	}
 
 	public void setAgility(int agility) {
-		statsTable.put("Agility\t\t", agility);
+		statsTable.put("Agility", agility);
 	}
 
 	public int getAtunement() {
-		return statsTable.get("Atunement\t");
+		return statsTable.get("Atunement");
 	}
 
 	public void setAtunement(int atunement) {
-		statsTable.put("Atunement\t", atunement);
+		statsTable.put("Atunement", atunement);
 	}
 
 	public int getHumanity() {
-		return statsTable.get("Humanity\t");
+		return statsTable.get("Humanity");
 	}
 
 	public void setHumanity(int humanity) {
-		statsTable.put("Humanity\t", humanity);
+		statsTable.put("Humanity", humanity);
 	}
 	
 	public int getArmor() {
-		return statsTable.get("Armor\t\t");
+		return statsTable.get("Armor");
 	}
 
 	public void setArmor(int armor) {
-		statsTable.put("Armor\t\t", armor);
+		statsTable.put("Armor", armor);
 	}
 	
 	public int getResistence() {
-		return statsTable.get("Resistence\t");
+		return statsTable.get("Resistence");
 	}
 
 	public void setResistence(int resistence) {
-		statsTable.put("Resistence\t", resistence);
+		statsTable.put("Resistence", resistence);
 	}
 	
 	public int getMovement() {
-		return statsTable.get("Movement\t");
+		return statsTable.get("Movement");
 	}
 	
 	public void setMovement(int movement) {
-		statsTable.put("Movement\t", movement);
+		statsTable.put("Movement", movement);
 	}
 	
 	public int getMinRange(){
-		return statsTable.get("Min Range\t");
+		return statsTable.get("Min Range");
 	}
 	
 	public void setMinRange(int minRange){
-		statsTable.put("Min Range\t", minRange);
+		statsTable.put("Min Range", minRange);
 	}
 	
 	public int getMaxRange(){
-		return statsTable.get("Max Range\t");
+		return statsTable.get("Max Range");
 	}
 	
 	public void setMaxRange(int maxRange){
-		statsTable.put("Max Range\t", maxRange);
+		statsTable.put("Max Range", maxRange);
 	}
 }

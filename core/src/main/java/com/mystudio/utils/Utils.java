@@ -31,6 +31,10 @@ public class Utils {
 			doHit(attackerStats, defenderStats, attackerDamageType, defenderDamageType);
 		}
 		
+		if(attacker.getInvisible() == true){
+			doHit(attackerStats, defenderStats, attackerDamageType, defenderDamageType);
+		}
+		
 		if(attacker.getStats().getCurrentHealth()  <= 0){
 			attacker.setAlive(false);
 		}
@@ -92,6 +96,8 @@ public class Utils {
 				System.out.println("Crit!");
 				damage *= 2;
 			}
+			
+			
 			
 			defenderStats.setCurrentHealth(defenderStats.getCurrentHealth() - damage);
 		}else{

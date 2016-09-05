@@ -17,7 +17,7 @@ public class Region extends Entity {
 	Event event;
 	
 	public Region(int x, int y, float width, float height, int tileSize, Color color) {
-		super(x, y, "");
+		super(x, y);
 		
 		this.color = color;
 		this.tileSize = tileSize;
@@ -26,7 +26,7 @@ public class Region extends Entity {
 	}
 	
 	public Region(int x, int y, float width, float height, int tileSize, Color color, Event event) {
-		super(x, y, "");
+		super(x, y);
 		
 		this.color = color;
 		this.tileSize = tileSize;
