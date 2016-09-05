@@ -15,6 +15,7 @@ import org.mini2Dx.core.graphics.Graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mystudio.enums.CharacterType;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
@@ -22,6 +23,7 @@ import com.mystudio.utils.Camera;
 import com.mystudio.utils.Entity;
 import com.mystudio.utils.Stats;
 import com.mystudio.utils.TileMap;
+import com.mystudio.utils.Utils;
 import com.mystudio.utils.StatGrowth;
 import org.mini2Dx.core.graphics.Sprite; 
 
@@ -39,6 +41,14 @@ public class Character extends Entity{
 
 	public Character(int x, int y, String texturePath, Stats initialStats, StatGrowth growthChances) {
 		super(x, y);
+	
+		idle = new Animation<Sprite>();
+		moveUp = new Animation<Sprite>();
+		moveLeft = new Animation<Sprite>();
+		moveRight = new Animation<Sprite>();
+		moveDown = new Animation<Sprite>();
+		highlighted = new Animation<Sprite>();
+		current = idle;
 
 		try{
 			texture = new Texture(Gdx.files.internal("data/" + texturePath));
@@ -56,6 +66,8 @@ public class Character extends Entity{
 		sprite.setOrigin(0, 0);
 		sprite.setScale(TurnBasedDriver.TILESIZE / sprite.getWidth(), 
 					    TurnBasedDriver.TILESIZE / sprite.getHeight());
+		
+		current.addFrame(sprite, 1.0f);
 	}
 	
 	public Character(int x, int y, CharacterType type){
@@ -333,12 +345,48 @@ public class Character extends Entity{
 		} catch(Exception e){
 			texture = new Texture(Gdx.files.internal("data/blankTile.png"));
 		}
+		
 		sprite = new Sprite(texture);
 		this.width = TurnBasedDriver.TILESIZE;
 		this.height = TurnBasedDriver.TILESIZE;
 		
 		stats = new Stats(10, 4, 5, 6, 5, 1, 7, 6, 4, 4, 0, 1);
 		growth = new StatGrowth(0.9f, 0.6, 0.1f, 0.5f, 0.3f, 0.3f, 0.2f);
+		
+		TextureRegion tre = new TextureRegion();
+		tre.setTexture(texture);
+		tre.setRegion(0, 0, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
+		TextureRegion[][] tr = Sprite.split(texture, TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
+		
+		idle.addFrame(Utils.makeSprite(tr[0][0]), 0.5f);
+		idle.addFrame(Utils.makeSprite(tr[0][1]), 0.5f);
+		idle.addFrame(Utils.makeSprite(tr[0][2]), 0.5f);
+		idle.addFrame(Utils.makeSprite(tr[0][1]), 0.5f);
+		
+		moveDown.addFrame(Utils.makeSprite(tr[1][0]), 0.3f);
+		moveDown.addFrame(Utils.makeSprite(tr[1][1]), 0.3f);
+		
+		moveUp.addFrame(Utils.makeSprite(tr[2][0]), 0.3f);
+		moveUp.addFrame(Utils.makeSprite(tr[2][1]), 0.3f);
+		
+		moveLeft.addFrame(Utils.makeSprite(tr[4][0]), 0.3f);
+		moveLeft.addFrame(Utils.makeSprite(tr[4][1]), 0.3f);
+		
+		moveRight.addFrame(Utils.makeSprite(tr[3][0]), 0.3f);
+		moveRight.addFrame(Utils.makeSprite(tr[3][1]), 0.3f);
+		
+		idle.flip(false, true);
+		idle.setLooping(true);
+		moveUp.flip(false, true);
+		moveUp.setLooping(true);
+		moveDown.flip(false, true);
+		moveDown.setLooping(true);
+		moveLeft.flip(false, true);
+		moveLeft.setLooping(true);
+		moveRight.flip(false, true);
+		moveRight.setLooping(true);
+		
+		current = idle;
 	}
 	
 	private void createGhost(){
@@ -629,6 +677,8 @@ public class Character extends Entity{
 		if(stats.getCurrentHealth() <= 0){
 			isAlive = false;
 		}
+		
+		current.update(delta);
 	}
 
 	@Override
@@ -639,8 +689,7 @@ public class Character extends Entity{
 				float gray = (c.r + c.g + c.b) / 255.0f;
 				sprite.setColor(gray, gray, gray, 0.7f);
 			}
-			g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
-								 yTile * TurnBasedDriver.TILESIZE);
+			current.draw(g, xTile * TurnBasedDriver.TILESIZE, yTile * TurnBasedDriver.TILESIZE);
 		}
 	}
 	

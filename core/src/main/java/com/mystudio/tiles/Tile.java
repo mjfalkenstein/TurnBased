@@ -228,8 +228,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		spriteX = r.nextInt(3);
-		spriteY = 0;
+		spriteX = 0;
+		spriteY = r.nextInt(3);
 		pathable = true;
 
 		try{
@@ -256,8 +256,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		spriteX = r.nextInt(3);
-		spriteY = 0;
+		spriteX = 0;
+		spriteY = r.nextInt(3);
 		pathable = true;
 
 		try{
@@ -284,8 +284,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		spriteX = r.nextInt(3);
-		spriteY = 0;
+		spriteX = 0;
+		spriteY = r.nextInt(3);
 		pathable = true;
 
 		try{
@@ -312,8 +312,8 @@ public class Tile implements Comparable<Tile>{
 		damage = 0.0f;
 		flammability = 0.0f;
 		Random r = new Random();
-		spriteX = r.nextInt(3);
-		spriteY = 0;
+		spriteX = 0;
+		spriteY = r.nextInt(3);
 		pathable = true;
 
 		try{
