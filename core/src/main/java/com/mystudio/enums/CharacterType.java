@@ -28,7 +28,7 @@ public enum CharacterType {
 	PRODIGY,			//A fully realized scion, uses their enormous brain power to control a mech, uses shotguns for close-range combat
 	ARCHITECT,			//A master builder, creates multiple very powerful robots simultaneously, carries a PDA to control robots
 	EXECUTIONER,		//a melee-range killer, can go invisible, does double damage if attacking from stealth, uses laser daggers
-	SNIPER,				//Extremely long range, chance to headshot for double damage, uses a large railgun for max range combat
+	SNIPER,				//Extremely long range, chance to headshot for triple damage, uses a large railgun for max range combat
 	COMMANDER,			//Close-range explosives user, can damage enemies in an AOE, carries grenades and C4 bombs
 	
 	/* TIER-LESS CLASSES (NPC's and ENEMIES MOSTLY) */

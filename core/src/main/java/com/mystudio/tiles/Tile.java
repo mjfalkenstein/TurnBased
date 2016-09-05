@@ -425,7 +425,8 @@ public class Tile implements Comparable<Tile>{
 		}
 
 		frontier.remove(chosen);
-		output.add(chosen);
+		
+		if(chosen.shift <= distance) output.add(chosen);
 
 		Tile lf = map.getWithNull(chosen.x - 1, chosen.y);
 		Tile rt = map.getWithNull(chosen.x + 1, chosen.y);

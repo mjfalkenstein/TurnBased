@@ -560,7 +560,7 @@ public class Character extends Entity{
 		this.width = TurnBasedDriver.TILESIZE;
 		this.height = TurnBasedDriver.TILESIZE;
 		
-		stats = new Stats(10, 6, 2, 4, 2, 9, 2, 2, 2, 4, 0, 0);
+		stats = new Stats(10, 6, 2, 4, 2, 9, 2, 2, 2, 4, 0, 7);
 		growth = new StatGrowth(0.9f, 0.2, 0.2f, 0.1f, 0.6f, 0.1f, 0.2f);
 	}
 	
@@ -574,7 +574,7 @@ public class Character extends Entity{
 		this.width = TurnBasedDriver.TILESIZE;
 		this.height = TurnBasedDriver.TILESIZE;
 		
-		stats = new Stats(16, 10, 2, 8, 4, 12, 4, 4, 4, 4, 0, 0);
+		stats = new Stats(16, 10, 2, 8, 4, 12, 4, 4, 4, 4, 0, 9);
 		growth = new StatGrowth(0.9f, 0.2, 0.2f, 0.1f, 0.6f, 0.1f, 0.2f);
 	}
 	

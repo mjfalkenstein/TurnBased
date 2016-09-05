@@ -33,7 +33,7 @@ public class Level0 extends Level{
 	public void initialise(GameContainer gc) {
 		super.initialise(gc);
 		
-		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 0, 1);
+		testCharacterStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 12, 0, 1);
 		testEnemyStats = new Stats(15, 8, 3, 7, 2, 6, 2, 5, 1, 6, 1, 3);
 		
 		testCharacter = new Character(6, 6, "test.jpg", testCharacterStats, TurnBasedDriver.DEFAULTGROWTH);
