@@ -234,11 +234,7 @@ public abstract class Level extends BasicGameScreen{
 			b.render(g, camera);
 		}
 
-		for(Tile t : pathTiles){
-			t.highlight(g, Color.WHITE);
-		}
-
-		//		pathHighlight.draw(g, playerTile, map);
+		pathHighlight.draw(g, playerTile, map);
 
 		g.translate(camera.getX(), camera.getY());
 	}
@@ -425,7 +421,7 @@ public abstract class Level extends BasicGameScreen{
 										t.setPathable(false);
 									}
 								}
-							}							
+							}						
 							possibleMoves = map.getPossiblePath(currentCharacter.getXTile(), currentCharacter.getYTile(), currentCharacter.getStats().getMovement());
 
 							tilesInRange = currentCharacter.getTilesInRange(map);

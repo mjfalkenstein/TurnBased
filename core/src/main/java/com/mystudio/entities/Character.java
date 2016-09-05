@@ -13,6 +13,7 @@ import org.mini2Dx.core.graphics.Animation;
 import org.mini2Dx.core.graphics.Graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mystudio.enums.CharacterType;
 import com.mystudio.tiles.Tile;
@@ -633,6 +634,11 @@ public class Character extends Entity{
 	@Override
 	public void render(Graphics g, Camera camera) {
 		if(isAlive){
+			if(hasMoved){
+				Color c = sprite.getColor();
+				float gray = (c.r + c.g + c.b) / 255.0f;
+				sprite.setColor(gray, gray, gray, 0.7f);
+			}
 			g.drawSprite(sprite, xTile * TurnBasedDriver.TILESIZE, 
 								 yTile * TurnBasedDriver.TILESIZE);
 		}

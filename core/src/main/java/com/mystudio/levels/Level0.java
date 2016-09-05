@@ -38,8 +38,8 @@ public class Level0 extends Level{
 		
 		testCharacter = new Character(6, 6, "test.jpg", testCharacterStats, TurnBasedDriver.DEFAULTGROWTH);
 		testEnemy1    = new Character(6, 5, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
-		testEnemy2    = new Character(6, 3, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
-		testEnemy3    = new Character(7, 3, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy2    = new Character(6, 4, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
+		testEnemy3    = new Character(8, 1, "portraitTemplate.png", testEnemyStats, TurnBasedDriver.DEFAULTGROWTH);
 		
 		for(int i = 0; i < map.getWidth(); i++){
 			for(int j = 0; j < map.getHeight(); j++){

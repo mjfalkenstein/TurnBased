@@ -8,6 +8,7 @@ import org.mini2Dx.core.graphics.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mystudio.tiles.Tile;
 import com.mystudio.turnbased.TurnBasedDriver;
 
@@ -29,16 +30,13 @@ public class Path {
 
 	public void draw(Graphics g, Tile playerTile, TileMap map){
 
-		image = new Sprite(spriteSheet);
-		Sprite[][] sprite = (Sprite[][]) image.split(TurnBasedDriver.TILESIZE, TurnBasedDriver.TILESIZE);
-		image = sprite[0][3];
+		TextureRegion tre = new TextureRegion();
+		tre.setTexture(spriteSheet);
+		tre.setRegion(0, 0, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
+		TextureRegion[][] tr = Sprite.split(spriteSheet, TurnBasedDriver.SPRITESIZE, TurnBasedDriver.SPRITESIZE);
+		image = Utils.makeSprite(tr[0][0]);
 		
-		int counter = 0;
-
 		for(Tile t : path){
-			g.drawString(""+counter, t.getX(), t.getY());
-			counter++;
-			
 			boolean left = false;
 			boolean right = false;
 			boolean top = false;
@@ -60,55 +58,58 @@ public class Path {
 			}
 			
 			if(left && right){
-				image = sprite[2][0];
+				image = Utils.makeSprite(tr[0][2]);
 			}
 			if(left && top){
-				image = sprite[1][1];
+				image = Utils.makeSprite(tr[1][1]);
 			}
 			if(left && bot){
-				image = sprite[1][0];
+				image = Utils.makeSprite(tr[0][1]);
 			}
 			if(left && !bot && ! top && !right){
-				image = sprite[3][2];
+				image = Utils.makeSprite(tr[2][3]);
 			}
 			
 			if(right && top){
-				image = sprite[0][1];
+				image = Utils.makeSprite(tr[1][0]);
 			}
 			if(right && bot){
-				image = sprite[0][0];
+				image = Utils.makeSprite(tr[0][0]);
 			}
 			if(right && !bot && !top && !left){
-				image = sprite[3][1];
+				image = Utils.makeSprite(tr[1][3]);
 			}
 			
 			if(top && bot){
-				image = sprite[3][0];
+				image = Utils.makeSprite(tr[0][3]);
 			}
 			if(top && !bot && !left && !right){
-				image = sprite[2][2];
+				image = Utils.makeSprite(tr[2][2]);
 			}
 			if(bot && !top && !left && !right){
-				image = sprite[2][1];
+				image = Utils.makeSprite(tr[1][2]);
 			}
 			
 			if(t.getX() == playerTile.getX() && t.getY() == playerTile.getY()){
 				if(left && !bot && ! top && !right){
-					image = sprite[1][2];
+					image = Utils.makeSprite(tr[2][1]);
 				}
 				if(right && !bot && ! top && !left){
-					image = sprite[0][2];
+					image = Utils.makeSprite(tr[2][0]);
 				}
 				if(top && !bot && !right && !left){
-					image = sprite[0][3];
+					image = Utils.makeSprite(tr[3][0]);
 				}
 				if(bot && !top && !right && !left){
-					image = sprite[1][3];
+					image = Utils.makeSprite(tr[3][1]);
 				}
 			}
-
-			g.setColor(Color.WHITE);
-			g.drawSprite(image, t.getX() * TurnBasedDriver.TILESIZE, t.getY() * TurnBasedDriver.TILESIZE);
+			
+			Color c = image.getColor();
+			image.setColor(c.r, c.g, c.b, 0.7f);
+			
+			g.drawSprite(image, t.getX() * TurnBasedDriver.TILESIZE - (TurnBasedDriver.SPRITESIZE - TurnBasedDriver.TILESIZE)/2, 
+								t.getY() * TurnBasedDriver.TILESIZE - (TurnBasedDriver.SPRITESIZE - TurnBasedDriver.TILESIZE)/2);
 		}
 	}
 }
